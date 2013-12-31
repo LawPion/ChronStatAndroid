@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <!-- PlayerListFragment -->
+
+    <fragment
+        android:id="@+id/fragment_userList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="4"
+        class="com.chron_stats_android_prototype.UserListFragment"
+        tools:layout="@layout/list_item_user" />
+
+    <!-- FrameLayout holding add or edit fragment -->
+
+    <FrameLayout
+        android:id="@+id/frameLayout_addEditFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2" />
+
+    <!--
+    <fragment
+        android:id="@+id/fragment_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        class="com.chron_stats_android.EditFragment"
+        tools:layout="@layout/fragment_edit" />
+    -->
+
+</LinearLayout>
