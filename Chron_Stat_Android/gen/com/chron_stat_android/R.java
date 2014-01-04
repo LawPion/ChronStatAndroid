@@ -26,9 +26,8 @@ public final class R {
         public static final int login_border=0x7f020002;
     }
     public static final class id {
-        public static final int action_add=0x7f080018;
         public static final int action_forgot_password=0x7f080019;
-        public static final int action_settings=0x7f080017;
+        public static final int action_settings=0x7f080018;
         public static final int button_add=0x7f080012;
         public static final int button_delete=0x7f080015;
         public static final int button_edit=0x7f080014;
@@ -40,9 +39,9 @@ public final class R {
         public static final int email=0x7f08000b;
         public static final int fragment_add=0x7f080000;
         public static final int fragment_edit=0x7f080001;
+        public static final int fragment_teamList=0x7f08000a;
         public static final int fragment_userList=0x7f080008;
         public static final int frameLayout_addEditFragment=0x7f080009;
-        public static final int listTeams=0x7f08000a;
         public static final int login=0x7f08000d;
         public static final int login_form=0x7f080004;
         public static final int login_status=0x7f080002;
@@ -51,7 +50,8 @@ public final class R {
         public static final int sign_in_button=0x7f08000e;
         public static final int textView_addTitle=0x7f08000f;
         public static final int textView_editTitle=0x7f080013;
-        public static final int textView_userItem=0x7f080016;
+        public static final int textView_teamItem=0x7f080016;
+        public static final int textView_userItem=0x7f080017;
     }
     public static final class layout {
         public static final int activity_add=0x7f030000;
@@ -74,10 +74,10 @@ public final class R {
     public static final class string {
         public static final int JSON_EXT=0x7f05000f;
         public static final int SERVER_URL=0x7f05000e;
-        public static final int action_forgot_password=0x7f050015;
+        public static final int action_forgot_password=0x7f050016;
         public static final int action_settings=0x7f050001;
-        public static final int action_sign_in_register=0x7f050013;
-        public static final int action_sign_in_short=0x7f050014;
+        public static final int action_sign_in_register=0x7f050014;
+        public static final int action_sign_in_short=0x7f050015;
         public static final int addPerson_button=0x7f05000c;
         public static final int add_button=0x7f05000b;
         public static final int add_title=0x7f05000a;
@@ -85,21 +85,22 @@ public final class R {
         public static final int delete_button=0x7f050009;
         public static final int edit_button=0x7f050008;
         public static final int edit_title=0x7f050007;
-        public static final int error_field_required=0x7f05001a;
-        public static final int error_incorrect_password=0x7f050019;
-        public static final int error_invalid_email=0x7f050017;
-        public static final int error_invalid_password=0x7f050018;
+        public static final int error_field_required=0x7f05001b;
+        public static final int error_incorrect_password=0x7f05001a;
+        public static final int error_invalid_email=0x7f050018;
+        public static final int error_invalid_password=0x7f050019;
         public static final int hello_world=0x7f050002;
-        public static final int login_progress_signing_in=0x7f050016;
+        public static final int login_progress_signing_in=0x7f050017;
         public static final int login_title=0x7f050003;
         public static final int password=0x7f050005;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f050011;
-        public static final int prompt_password=0x7f050012;
+        public static final int prompt_email=0x7f050012;
+        public static final int prompt_password=0x7f050013;
         public static final int send_login=0x7f050006;
+        public static final int title_activity_main=0x7f050010;
         public static final int title_activity_team_list=0x7f05000d;
-        public static final int title_activity_test_login=0x7f050010;
+        public static final int title_activity_test_login=0x7f050011;
         public static final int username=0x7f050004;
     }
     public static final class style {

@@ -1,0 +1,7 @@
+package com.chron_stat_android.tasks;
+
+import android.os.AsyncTask;
+
+public class LoginTask extends AsyncTask<Params, Progress, Result> {
+
+}

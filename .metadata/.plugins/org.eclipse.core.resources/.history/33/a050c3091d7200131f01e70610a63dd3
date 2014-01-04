@@ -1,0 +1,60 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TeamListActivity" >
+    
+    <!-- list -->
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:background="@drawable/login_border"
+		    android:orientation="vertical"
+		    android:weightSum="3" >
+
+		    <!-- Nom d'utilisateur -->
+		
+		    <EditText
+		        android:id="@+id/editText_username"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_marginTop="4dp"
+		        android:hint="@string/username"
+		        android:inputType="text|textNoSuggestions"
+		        android:maxEms="10"
+		        android:minEms="10"
+		        android:textSize="20sp" >
+		
+		        <requestFocus />
+		    </EditText>
+		
+		    <!-- Mot de passe -->
+		
+		    <EditText
+		        android:id="@+id/editText_password"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_marginTop="4dp"
+		        android:hint="@string/password"
+		        android:imeOptions="actionSend"
+		        android:inputType="textPassword"
+		        android:maxEms="10"
+		        android:minEms="10"
+		        android:textSize="20sp" />
+		
+		    <!-- Bouton d'envoi -->
+		
+		    <Button
+		        android:id="@+id/button_sendLogin"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="4dp"
+		        android:text="@string/send_login" />
+        </LinearLayout>
+    </ScrollView>
+</merge>

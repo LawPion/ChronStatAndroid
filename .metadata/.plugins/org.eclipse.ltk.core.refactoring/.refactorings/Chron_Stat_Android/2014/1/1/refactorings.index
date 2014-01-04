@@ -1,0 +1,9 @@
+1388701888822	Delete element
+1388704205436	Delete element
+1388794003022	Rename method 'JSONToUserArray'
+1388794013037	Rename local variable 'usersJSON'
+1388794021435	Rename method 'JSONToUser'
+1388794027556	Rename local variable 'userJSON'
+1388795959595	Rename field 'homecolor'
+1388795966292	Rename field 'awaycolor'
+1388797917513	Rename field 'TYPE_USER'
