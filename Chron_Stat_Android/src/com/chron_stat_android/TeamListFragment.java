@@ -1,6 +1,5 @@
 package com.chron_stat_android;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import com.chron_stat_android.model.Team;
@@ -10,15 +9,18 @@ import com.google.gson.Gson;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class TeamListFragment extends ListFragment implements GetJSONTask.CallBackListener {
-	
+public class TeamListFragment extends ListFragment implements
+		GetJSONTask.CallBackListener {
+
 	// L'adapteur de la liste
 	private TeamAdapter adapter;
 
@@ -41,20 +43,20 @@ public class TeamListFragment extends ListFragment implements GetJSONTask.CallBa
 		gson = new Gson();
 
 		adapter = new TeamAdapter(getActivity());
+		refreshList();
 	}
-
+	
 	/***************************************************************************
 	 * Rafraichit la liste en téléchargeant un nouveau JSON depuis le serveur.
 	 **************************************************************************/
 	public void refreshList() {
 		// Efface le contenu de la liste
 		adapter.clear();
-
-		URL usersURL = null;
+		
 		try {
-			// URL de la liste d'utilisateurs à récupérer
-			usersURL = new URL(R.string.SERVER_URL + "users"
-					+ R.string.JSON_EXT);
+			// Préférences contenant le token utilisé pour l'authentification
+			SharedPreferences preferences = getActivity().getSharedPreferences(
+					"CurrentUser", MainActivity.MODE_PRIVATE);
 
 			/*
 			 * Nouvelle GetJSONTask gérant la récupération d'un JSON depuis une
@@ -62,7 +64,8 @@ public class TeamListFragment extends ListFragment implements GetJSONTask.CallBa
 			 */
 			GetJSONTask task = new GetJSONTask();
 			task.setListener(this);
-			task.execute(usersURL);
+			task.execute(getString(R.string.SERVER_URL) + "teams"
+					+ getString(R.string.JSON_EXT), preferences.getString("AuthCookie", "false"));
 		} catch (Exception e) {
 			Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
 		}
@@ -132,7 +135,7 @@ public class TeamListFragment extends ListFragment implements GetJSONTask.CallBa
 
 		// Ajoute chaque utilisateur du tableau passé en paramètre
 		for (int i = 0; i < teams.length; i++) {
-			Log.d("DEBUG - adding users", ((Team) teams[i]).toString());
+			Log.d("DEBUG - adding teams", ((Team) teams[i]).toString());
 			adapter.addItem(teams[i]);
 		}
 
@@ -145,36 +148,36 @@ public class TeamListFragment extends ListFragment implements GetJSONTask.CallBa
 	 * représentant un JSON.
 	 * 
 	 * La méthode transforme d'abord le JSON en tableau d'utilisateurs par un
-	 * appel à la fonction statique JSONToUserArray, puis passe ce dernier à
-	 * la méthode populateList.
+	 * appel à la fonction statique JSONToUserArray, puis passe ce dernier à la
+	 * méthode populateList.
 	 * 
 	 * @param usersJSON
 	 **************************************************************************/
 	public void populateList(String teamsJSON) {
-		Team[] teams = JSONToUserArray(teamsJSON);
+		Team[] teams = JSONToTeamArray(teamsJSON);
 		populateList(teams);
 	}
 
 	/***************************************************************************
 	 * Fonction statique pour convertir un JSON en utilisateur.
 	 * 
-	 * @param userJSON
+	 * @param teamJSON
 	 *            Le JSON à convertir en utilisateur.
 	 * @return L'objet User créé à partir du JSON.
 	 **************************************************************************/
-	public static Team JSONToUser(String userJSON) {
-		return gson.fromJson(userJSON, Team.class);
+	public static Team JSONToTeam(String teamJSON) {
+		return gson.fromJson(teamJSON, Team.class);
 	}
 
 	/***************************************************************************
 	 * Fonction statique pour convertir un JSON en tableau d'utilisateurs.
 	 * 
-	 * @param usersJSON
+	 * @param teamsJSON
 	 *            Le JSON à convertir en tableau d'utilisateurs.
 	 * @return Le talbeau de User créé à partir du JSON.
 	 **************************************************************************/
-	public static Team[] JSONToUserArray(String usersJSON) {
-		return gson.fromJson(usersJSON, Team[].class);
+	public static Team[] JSONToTeamArray(String teamsJSON) {
+		return gson.fromJson(teamsJSON, Team[].class);
 	}
 
 	/***************************************************************************
@@ -197,7 +200,7 @@ public class TeamListFragment extends ListFragment implements GetJSONTask.CallBa
 		 * pas en charge le polymorphisme, seule la classe User est représentée
 		 * ici.
 		 */
-		private static final int TYPE_USER = 0;
+		private static final int TYPE_TEAM = 0;
 
 		/*
 		 * Nombre de types d'objets différents pouvant être contenu dans la
@@ -337,14 +340,14 @@ public class TeamListFragment extends ListFragment implements GetJSONTask.CallBa
 		public View getView(int position, View convertView, ViewGroup parent) {
 			int type = getItemViewType(position);
 			switch (type) {
-				case TYPE_USER:
-					// Team edition logic
-//					convertView = inflater.inflate(R.layout.list_item_user, null);
-//					String name = ((Team) list.get(position)).getName();
-//					((TextView) convertView.findViewById(R.id.textView_teamItem))
-//							.setText(name);
-				default:
-					break;
+			case TYPE_TEAM:
+				// Team edition logic
+				convertView = inflater.inflate(R.layout.list_item_team, parent, false);
+				String name = ((Team) list.get(position)).getName();
+				((TextView) convertView.findViewById(R.id.textView_teamItem))
+						.setText(name);
+			default:
+				break;
 			}
 
 			return convertView;

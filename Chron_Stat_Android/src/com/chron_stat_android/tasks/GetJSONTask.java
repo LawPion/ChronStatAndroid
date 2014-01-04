@@ -2,8 +2,12 @@ package com.chron_stat_android.tasks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -29,7 +33,7 @@ import android.util.Log;
  * 
  * @notes -
  ******************************************************************************/
-public class GetJSONTask extends AsyncTask<URL, Void, String> {
+public class GetJSONTask extends AsyncTask<String, Void, String> {
 
 	// Listener du callback pour le traitement ultérieur du JSON.
 	private CallBackListener cbl;
@@ -72,19 +76,35 @@ public class GetJSONTask extends AsyncTask<URL, Void, String> {
 	 * @see android.os.AsyncTask#doInBackground(Params[])
 	 **************************************************************************/
 	@Override
-	protected String doInBackground(URL... urls) {
+	protected String doInBackground(String... params) {
 		String json = null;
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(
-					urls[0].openStream()));
-			StringBuffer buffer = new StringBuffer();
-			int read;
-			char[] chars = new char[1024];
-			while ((read = reader.read(chars)) != -1)
-				buffer.append(chars, 0, read);
+		
+		if (params[1].equals("false")) {
+			json = "[{\"name\":\"No Entry\"}]";
+			Log.d("RETRIEVED JSON", json);
+			return json;
+		}
+		
+		DefaultHttpClient client = new DefaultHttpClient();
 
-			json = buffer.toString();
+		HttpGet httpget = new HttpGet(params[0]);
+		BufferedReader reader = null;
+		
+		try {
+			httpget.setHeader("Cookie", "remember_token="+params[1]);
+			HttpResponse HTTPResponse = client.execute(httpget);
+			HttpEntity entity = HTTPResponse.getEntity();
+			InputStream is = entity.getContent();
+			reader = new BufferedReader(new InputStreamReader(
+					is, "utf-8"), 8);
+			StringBuilder builder = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				Log.d("RETRIEVED JSON", line);
+				builder.append(line);
+			}
+			is.close();
+			json = builder.toString();
 		} catch (Exception e) {
 			Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
 		} finally {
@@ -97,6 +117,7 @@ public class GetJSONTask extends AsyncTask<URL, Void, String> {
 			}
 		}
 
+		Log.d("RETRIEVED JSON", json);
 		return json;
 	}
 
