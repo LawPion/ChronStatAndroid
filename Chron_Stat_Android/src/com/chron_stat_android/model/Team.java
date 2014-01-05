@@ -1,7 +1,12 @@
 package com.chron_stat_android.model;
 
-public class Team {
+import java.io.Serializable;
 
+public class Team implements Serializable {
+
+	private static final long serialVersionUID = -3671570499613435693L;
+	
+	private int id;
 	private String name;
 	private String homeColor;
 	private String awayColor;
@@ -11,12 +16,17 @@ public class Team {
 		super();
 	}
 
-	public Team(String name, String homecolor, String awaycolor, int clubID) {
+	public Team(int id, String name, String homecolor, String awaycolor, int clubID) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.homeColor = homecolor;
 		this.awayColor = awaycolor;
 		this.clubID = clubID;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -37,6 +47,6 @@ public class Team {
 	
 	@Override
 	public String toString() {
-		return this.name+" ("+this.clubID+")";
+		return name+" ("+clubID+")";
 	}
 }

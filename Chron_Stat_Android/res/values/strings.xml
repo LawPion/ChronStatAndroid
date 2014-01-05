@@ -18,5 +18,6 @@
     <string name="SERVER_URL">http://chron-stats.herokuapp.com/</string>
     <string name="JSON_EXT">.json</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_matches_list">MatchesListActivity</string>
 
 </resources>

@@ -58,14 +58,16 @@ public class TeamListFragment extends ListFragment implements
 			SharedPreferences preferences = getActivity().getSharedPreferences(
 					"CurrentUser", MainActivity.MODE_PRIVATE);
 
+			String teamsURL = getString(R.string.SERVER_URL) + "teams"
+					+ getString(R.string.JSON_EXT);
+			
 			/*
 			 * Nouvelle GetJSONTask gérant la récupération d'un JSON depuis une
 			 * URL.
 			 */
 			GetJSONTask task = new GetJSONTask();
 			task.setListener(this);
-			task.execute(getString(R.string.SERVER_URL) + "teams"
-					+ getString(R.string.JSON_EXT), preferences.getString("AuthCookie", "false"));
+			task.execute(preferences.getString("AuthCookie", "false"), teamsURL);
 		} catch (Exception e) {
 			Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
 		}
@@ -80,8 +82,8 @@ public class TeamListFragment extends ListFragment implements
 		 * Méthode callback à implémenter. Appelée quand un élément de la liste
 		 * est sélectionné.
 		 * 
-		 * @param user
-		 *            L'utilisateur sélectionné dans la liste.
+		 * @param team
+		 *            L'équipe sélectionnée dans la liste.
 		 **********************************************************************/
 		void onItemClick(Team team);
 	}
@@ -103,8 +105,8 @@ public class TeamListFragment extends ListFragment implements
 	 * @see com.chron_stats_android_prototype.tasks.GetJSONTask.CallBackListener#callback(java.lang.String)
 	 **************************************************************************/
 	@Override
-	public void callback(String json) {
-		populateList(json);
+	public void callback(String[] json) {
+		populateList(json[0]);
 	}
 
 	/***************************************************************************
@@ -126,8 +128,8 @@ public class TeamListFragment extends ListFragment implements
 	 * La méthode efface d'abord le contenu de l'adapteur, puis lui ajoute les
 	 * utilisateurs une à une.
 	 * 
-	 * @param users
-	 *            Le tableau d'utilisateurs avec lequel remplir la liste
+	 * @param teams
+	 *            Le tableau d'équipes avec lequel remplir la liste
 	 **************************************************************************/
 	public synchronized void populateList(Team[] teams) {
 		// Efface le contenu de l'adapteur de liste
@@ -148,10 +150,10 @@ public class TeamListFragment extends ListFragment implements
 	 * représentant un JSON.
 	 * 
 	 * La méthode transforme d'abord le JSON en tableau d'utilisateurs par un
-	 * appel à la fonction statique JSONToUserArray, puis passe ce dernier à la
+	 * appel à la fonction statique JSONToTeamArray, puis passe ce dernier à la
 	 * méthode populateList.
 	 * 
-	 * @param usersJSON
+	 * @param teamsJSON
 	 **************************************************************************/
 	public void populateList(String teamsJSON) {
 		Team[] teams = JSONToTeamArray(teamsJSON);
@@ -159,22 +161,22 @@ public class TeamListFragment extends ListFragment implements
 	}
 
 	/***************************************************************************
-	 * Fonction statique pour convertir un JSON en utilisateur.
+	 * Fonction statique pour convertir un JSON en équipe.
 	 * 
 	 * @param teamJSON
-	 *            Le JSON à convertir en utilisateur.
-	 * @return L'objet User créé à partir du JSON.
+	 *            Le JSON à convertir en équipe.
+	 * @return L'objet Team créé à partir du JSON.
 	 **************************************************************************/
 	public static Team JSONToTeam(String teamJSON) {
 		return gson.fromJson(teamJSON, Team.class);
 	}
 
 	/***************************************************************************
-	 * Fonction statique pour convertir un JSON en tableau d'utilisateurs.
+	 * Fonction statique pour convertir un JSON en tableau d'équipes.
 	 * 
 	 * @param teamsJSON
-	 *            Le JSON à convertir en tableau d'utilisateurs.
-	 * @return Le talbeau de User créé à partir du JSON.
+	 *            Le JSON à convertir en tableau d'équipes.
+	 * @return Le talbeau de Team créé à partir du JSON.
 	 **************************************************************************/
 	public static Team[] JSONToTeamArray(String teamsJSON) {
 		return gson.fromJson(teamsJSON, Team[].class);
@@ -187,17 +189,17 @@ public class TeamListFragment extends ListFragment implements
 	 * @author Triki Mohamed
 	 * @author Walpen Laurian
 	 * 
-	 * @goal Adapteur de liste pour le fragment UserListFragment.
+	 * @goal Adapteur de liste pour le fragment TeamListFragment.
 	 * 
-	 *       Gère les interactions avec la liste d'utilisateurs contenue dans ce
+	 *       Gère les interactions avec la liste d'équipes contenue dans ce
 	 *       fragment.
 	 * 
 	 * @notes -
 	 **************************************************************************/
 	protected class TeamAdapter extends BaseAdapter {
 		/*
-		 * Numéro représentant le type de la classe User. Le fragment ne prenant
-		 * pas en charge le polymorphisme, seule la classe User est représentée
+		 * Numéro représentant le type de la classe Team. Le fragment ne prenant
+		 * pas en charge le polymorphisme, seule la classe Team est représentée
 		 * ici.
 		 */
 		private static final int TYPE_TEAM = 0;

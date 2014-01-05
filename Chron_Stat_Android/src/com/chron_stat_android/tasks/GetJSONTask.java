@@ -33,7 +33,7 @@ import android.util.Log;
  * 
  * @notes -
  ******************************************************************************/
-public class GetJSONTask extends AsyncTask<String, Void, String> {
+public class GetJSONTask extends AsyncTask<String, Void, String[]> {
 
 	// Listener du callback pour le traitement ultérieur du JSON.
 	private CallBackListener cbl;
@@ -46,10 +46,10 @@ public class GetJSONTask extends AsyncTask<String, Void, String> {
 		/***********************************************************************
 		 * Méthode callback à implémenter. Appelée une fois le JSON récupéré.
 		 * 
-		 * @param json
+		 * @param jsons
 		 *            La chaîne de caractère contenant le JSON.
 		 **********************************************************************/
-		public void callback(String json);
+		public void callback(String[] jsons);
 	}
 
 	/***************************************************************************
@@ -76,49 +76,53 @@ public class GetJSONTask extends AsyncTask<String, Void, String> {
 	 * @see android.os.AsyncTask#doInBackground(Params[])
 	 **************************************************************************/
 	@Override
-	protected String doInBackground(String... params) {
-		String json = null;
-		
-		if (params[1].equals("false")) {
-			json = "[{\"name\":\"No Entry\"}]";
-			Log.d("RETRIEVED JSON", json);
-			return json;
+	protected String[] doInBackground(String... params) {
+		String[] jsons = new String[params.length - 1];
+
+		if (params[0].equals("false")) {
+			jsons[0] = "[{\"name\":\"No Entry\"}]";
+			Log.d("RETRIEVED JSON", jsons[0]);
+			return jsons;
 		}
-		
+
 		DefaultHttpClient client = new DefaultHttpClient();
 
-		HttpGet httpget = new HttpGet(params[0]);
-		BufferedReader reader = null;
-		
-		try {
-			httpget.setHeader("Cookie", "remember_token="+params[1]);
-			HttpResponse HTTPResponse = client.execute(httpget);
-			HttpEntity entity = HTTPResponse.getEntity();
-			InputStream is = entity.getContent();
-			reader = new BufferedReader(new InputStreamReader(
-					is, "utf-8"), 8);
-			StringBuilder builder = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				Log.d("RETRIEVED JSON", line);
-				builder.append(line);
-			}
-			is.close();
-			json = builder.toString();
-		} catch (Exception e) {
-			Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
+		for (int i = 1; i < params.length; i++) {
+			HttpGet httpget = new HttpGet(params[i]);
+			BufferedReader reader = null;
+
+			try {
+				httpget.setHeader("Cookie", "remember_token=" + params[0]);
+				HttpResponse HTTPResponse = client.execute(httpget);
+				HttpEntity entity = HTTPResponse.getEntity();
+				InputStream is = entity.getContent();
+				reader = new BufferedReader(new InputStreamReader(is, "utf-8"),
+						8);
+				StringBuilder builder = new StringBuilder();
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					Log.d("RETRIEVED JSON", line);
+					builder.append(line);
+				}
+				is.close();
+				jsons[i - 1] = builder.toString();
+			} catch (Exception e) {
+				Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
+					}
 				}
 			}
 		}
 
-		Log.d("RETRIEVED JSON", json);
-		return json;
+		for (int i = 0; i < jsons.length; i++) {
+			Log.d("RETRIEVED JSON", jsons[i]);
+		}
+		return jsons;
 	}
 
 	/***************************************************************************
@@ -132,7 +136,7 @@ public class GetJSONTask extends AsyncTask<String, Void, String> {
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 **************************************************************************/
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(String[] result) {
 		cbl.callback(result);
 	}
 }
