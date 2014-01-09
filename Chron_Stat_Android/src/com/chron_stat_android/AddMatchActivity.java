@@ -3,7 +3,6 @@ package com.chron_stat_android;
 import com.chron_stat_android.model.Team;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
