@@ -54,6 +54,7 @@
             android:name="com.chron_stat_android.AddMatchActivity"
             android:label="@string/title_activity_add_match">
         </activity>
+        <activity android:name="TimeKeepingActivity" android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

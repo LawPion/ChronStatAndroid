@@ -22,6 +22,7 @@
     
     <!-- Affichage time keeping -->
     
+    <string name="action_terminate">Terminer Match</string>
     <string name="numero">No</string>
     <string name="name">Nom</string>
     <string name="goal">But</string>

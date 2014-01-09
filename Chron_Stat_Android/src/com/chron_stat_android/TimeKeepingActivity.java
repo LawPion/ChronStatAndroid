@@ -6,8 +6,11 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -48,7 +51,7 @@ public class TimeKeepingActivity extends Activity  {
     int scoreTeam1 = 0, scoreTeam2 = 0;
     
     // Timer principal du match
-    CountDownTimerPausable timer;
+    CountDownTimerPausable mainTimer;
     
     // Liste de l'ensemble des timers de l'application
     ArrayList<CountDownTimerPausable> timers = new ArrayList<CountDownTimerPausable>();
@@ -56,7 +59,7 @@ public class TimeKeepingActivity extends Activity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_time_keeping);
         
         // Définition des listView
     	listResumeTeam1 = (ListView) findViewById(R.id.listResumeTeam1);
@@ -85,12 +88,11 @@ public class TimeKeepingActivity extends Activity  {
         lblScore.setText(scoreTeam1 + " - " + scoreTeam2);
         
         // Défintion du timer principal du match
-        timer = new CountDownTimerPausable(DURATION_MATCH,INTERVAL_DURATION ) {
+        mainTimer = new CountDownTimerPausable(DURATION_MATCH,INTERVAL_DURATION ) {
 			
 			@Override
 			public void onTick(long millisUntilFinished) {
 				lblTps.setText(""+millisUntilFinished / INTERVAL_DURATION  / 60 +"."+millisUntilFinished / INTERVAL_DURATION   % 60);
-				
 			}
 			
 			@Override
@@ -101,7 +103,7 @@ public class TimeKeepingActivity extends Activity  {
 		};
 		
 		// Ajout du timer a la liste des timers
-		timers.add(timer);
+		timers.add(mainTimer);
 		                
 		
 		btnCorrection.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +147,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)timer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
                     }
                 });
         		adb.setNeutralButton("annuler", null);
@@ -180,7 +182,7 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam1.notifyDataSetChanged();
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)timer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
 
                         // Création du timer pour les 2min
                         CountDownTimerPausable timer = new CountDownTimerPausable(DURATION_2MIN ,INTERVAL_DURATION ) {
@@ -204,7 +206,11 @@ public class TimeKeepingActivity extends Activity  {
                                 listItem2MinTeam1.remove(temp);
                                 adapter2MinTeam1.notifyDataSetChanged();
                 			}
-                		}.start();
+                		};
+                		
+	            		// Si le timer principal n'est pas en pause on start le timer
+                		if(!mainTimer.isPaused)
+                			timer.start();
                 		
                 		// Ajout du timer a la liste des timer
                 		timers.add(timer);
@@ -239,7 +245,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)timer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
                     }
                 });
         		
@@ -270,7 +276,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)timer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
+                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
 
                     }
                 });
@@ -307,7 +313,7 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam2.notifyDataSetChanged();
                    
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)timer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
                     
                         // Création du timer pour les 2min
 	                    CountDownTimerPausable timer = new CountDownTimerPausable(DURATION_2MIN ,INTERVAL_DURATION ) {
@@ -331,7 +337,11 @@ public class TimeKeepingActivity extends Activity  {
 	                            listItem2MinTeam2.remove(temp);
 	                            adapter2MinTeam2.notifyDataSetChanged();
 	            			}
-	            		}.start();
+	            		};
+	            		
+	            		// Si le timer principal n'est pas en pause on start le timer
+                		if(!mainTimer.isPaused)
+                			timer.start();
 	            		
 	            		// Ajout du timer a la liste des timer
 	            		timers.add(timer);
@@ -365,7 +375,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)timer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
+                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
                     }
                 });
         		
@@ -389,12 +399,28 @@ public class TimeKeepingActivity extends Activity  {
         		}
         	}
         });
+        
+        
     }
 
     @Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_terminate:
+			
+			Intent intent = new Intent(this,LoginActivity.class);
+			startActivity(intent);
+			
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.time_keeping, menu);
         return true;
     }
     

@@ -6,24 +6,28 @@
         android:id="@+id/itemNumResume"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="Numero" />
+        android:text="Numero"
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/itemNameResume"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Nom" />
+        android:text="Nom" 
+        android:textColor="@color/text"/>
 
     <TextView
         android:id="@+id/itemButResume"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="But" />
+        android:text="But"
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/item2MinResume"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="DeuxMin" />
+        android:text="DeuxMin"
+        android:textColor="@color/text" />
 
 </LinearLayout>
