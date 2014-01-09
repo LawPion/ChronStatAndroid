@@ -13,7 +13,7 @@
     <string name="delete_button">Supprimer</string>
     <string name="add_title">Ajout</string>
     <string name="add_button">Ajouter</string>
-    <string name="addPerson_button">Ajouter une personne</string>
+    <string name="addMatch_button">Ajouter un match</string>
     <string name="title_activity_team_list">TeamListActivity</string>
     <string name="SERVER_URL">http://chron-stats.herokuapp.com/</string>
     <string name="JSON_EXT">.json</string>
@@ -35,5 +35,8 @@
     <string name="playPause">Play / Pause</string>
     <string name="correction">Correction</string>
     <string name="matchNotStarted">Match non commancé</string>
+    <string name="timekeeping_button">Romain!</string>
+    <string name="title_activity_match_details">MatchDetailsActivity</string>
+    <string name="title_activity_add_match">AddMatchActivity</string>
 
 </resources>
