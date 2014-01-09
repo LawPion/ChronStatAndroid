@@ -18,5 +18,4 @@ public class MatchDetailsActivity extends Activity {
 		getMenuInflater().inflate(R.menu.match_details, menu);
 		return true;
 	}
-
 }

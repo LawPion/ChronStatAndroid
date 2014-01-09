@@ -1,5 +1,6 @@
 package com.chron_stat_android;
 
+import com.chron_stat_android.model.Match;
 import com.chron_stat_android.model.Team;
 
 import android.os.Bundle;
