@@ -1,0 +1,430 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <!-- Zone supérieur -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:background="@color/resume"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <!-- Resume joueur equipe 1 -->
+
+        <LinearLayout
+            android:layout_width="289dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/resumeTeam1"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/numero"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/goal"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deuxMin"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listResumeTeam1"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+            </ListView>
+        </LinearLayout>
+
+        <!-- Panneau score -->
+
+        <LinearLayout
+            android:layout_width="600dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.02"
+            android:background="@color/score"
+            android:orientation="horizontal"
+            android:padding="20dp" >
+
+            <!-- liste 2 min equipe 1 -->
+
+            <LinearLayout
+                android:layout_width="226dp"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:padding="20dp" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/deuxMinProgress"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/numero"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tps"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/list2MinTeam1"
+                    android:layout_width="254dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+                </ListView>
+            </LinearLayout>
+
+            <!-- Affichage temps -->
+
+            <LinearLayout
+                android:layout_width="206dp"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/lblScore"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.16"
+                    android:background="@color/brown"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="35sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/lblTps"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.24"
+                    android:gravity="center"
+                    android:text="@string/matchNotStarted"
+                    android:textColor="@color/white"
+                    android:textSize="35sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- liste 2 min equipe 2 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:padding="20dp" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/deuxMinProgress"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/numero"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tps"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/list2MinTeam2"
+                    android:layout_width="216dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Resume joueur equipe 2 -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/resumeTeam2"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/numero"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/goal"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deuxMin"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listResumeTeam2"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+            </ListView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Zone Inférieur -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <!-- Bouton Equipe 1 -->
+
+        <LinearLayout
+            android:layout_width="390dp"
+            android:layout_height="fill_parent"
+            android:background="@color/boutonEquipe"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/btnGoalTeam1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/goal"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/btnPenaltyTeam1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/penalty"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/btnCardTeam1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/card"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/btn2MinTeam1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/deuxMin"
+                    android:textSize="30sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Bouton All -->
+
+        <LinearLayout
+            android:layout_width="452dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.73"
+            android:background="@color/bouton"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <Button
+                android:id="@+id/btnPlayPause"
+                android:layout_width="300dp"
+                android:layout_height="130dp"
+                android:layout_margin="20dp"
+                android:padding="20dp"
+                android:text="@string/playPause"
+                android:textColor="@color/score"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/btnCorrection"
+                android:layout_width="300dp"
+                android:layout_height="130dp"
+                android:layout_margin="20dp"
+                android:padding="20dp"
+                android:text="@string/correction"
+                android:textColor="@color/score"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <!-- Bouton Equipe 2 -->
+
+        <LinearLayout
+            android:layout_width="390dp"
+            android:layout_height="fill_parent"
+            android:background="@color/boutonEquipe"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/btnGoalTeam2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/goal"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/btnPenaltyTeam2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/penalty"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/btnCardTeam2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/card"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/btn2MinTeam2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:padding="20dp"
+                    android:text="@string/deuxMin"
+                    android:textSize="30sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
