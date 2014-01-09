@@ -5,8 +5,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
+import java.util.ArrayList;
+
+import com.chron_stat_android.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import android.content.Context;
+import android.util.Base64;
 import android.util.Log;
 
 public class Match implements Serializable {
@@ -23,6 +31,9 @@ public class Match implements Serializable {
 	private int team_id2_id;
 	private Team team1; // the current team
 	private Team team2; // the opponent team
+	private Championship championship;
+	private Gym gym;
+	private Fact[] facts;
 
 	public Match() {
 		super();
@@ -104,65 +115,23 @@ public class Match implements Serializable {
 	public void setTeam2(Team team2) {
 		this.team2 = team2;
 	}
+	
+	public void setFacts(ArrayList<Fact> facts) {
+		
+	}
 
-//	public void writeToStorage(Context context) {
-//		// retrieving dependency from server
-//		String json = null;
-//		BufferedReader reader = null;
-//		try {
-//			URL url = this.uri.toURL();
-//			reader = new BufferedReader(new InputStreamReader(url.openStream()));
-//			StringBuffer buffer = new StringBuffer();
-//			int read;
-//			char[] chars = new char[1024];
-//			while ((read = reader.read(chars)) != -1)
-//				buffer.append(chars, 0, read);
-//
-//			json = buffer.toString();
-//		} catch (MalformedURLException e) {
-//			Log.e("retrieve", "retrieveFromServer: " + e.getMessage());
-//		} catch (IOException e) {
-//		} finally {
-//			if (reader != null)
-//				try {
-//					reader.close();
-//				} catch (IOException e) {
-//					Log.e("retrieve", "retrieveFromServer: " + e.getMessage());
-//				}
-//		}
-//		JsonObject jo = new JsonParser().parse(json).getAsJsonObject();
-//		String dataString = jo.get("data").getAsString();
-//		byte[] data = Base64.decode(dataString, Base64.DEFAULT);
-//		File curDir = type == 0 ? getImagesStorageDir(context)
-//				: getSoundsStorageDir(context);
-//
-//		// Writing to external storage
-//		FileOutputStream fileWriter = null;
-//		String uuid = this.uri.toString().substring(
-//				MainActivity.SERVER_URL.length(),
-//				this.uri.toString().indexOf(MainActivity.JSON_EXT));
-//		File dependencyFile = new File(curDir, uuid + "."
-//				+ (type == 0 ? "png" : "mp3"));
-//		if (!dependencyFile.exists()) {
-//			try {
-//				dependencyFile.createNewFile();
-//				fileWriter = new FileOutputStream(dependencyFile);
-//				fileWriter.write(data);
-//				fileWriter.flush();
-//				fileWriter.close();
-//			} catch (IOException e) {
-//				Log.e("retrieve", "writeToFile: " + e.getMessage());
-//			} finally {
-//				try {
-//					if (fileWriter != null)
-//						fileWriter.close();
-//				} catch (IOException e) {
-//					Log.e("retrieve", "writeToFile: " + e.getMessage());
-//				}
-//			}
-//		} else {
-//			Log.d("retrieve", "dependency already exists in storage: "
-//					+ this.uri.toString() + " -- " + this.size + "");
-//		}
-//	}
+	public void writeToStorage(Context context) {
+		Gson gson = new Gson();
+		String filename = ""+id+R.string.JSON_EXT;
+		String json = gson.toJson(this, Match.class);
+		FileOutputStream outputStream;
+
+		try {
+		  outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+		  outputStream.write(json.getBytes());
+		  outputStream.close();
+		} catch (Exception e) {
+		  e.printStackTrace();
+		}
+	}
 }

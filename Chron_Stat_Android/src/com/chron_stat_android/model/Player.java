@@ -7,6 +7,7 @@ public class Player implements Serializable {
 	
 	private static final long serialVersionUID = -4758151210188430466L;
 	
+	private int id;
 	private int num;
 	private String name;
 	private int nbrGoal = 0;
