@@ -11,11 +11,8 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -26,9 +23,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -58,7 +53,6 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 	private final static String LOGIN_API_ENDPOINT_URL = "http://chron-stats.herokuapp.com/sessions";
 	private SharedPreferences preferences;
-	private String authenticity_token;
 	private String username;
 	private String password;
 
@@ -123,22 +117,18 @@ public class LoginActivity extends Activity {
 			return;
 		} else {
 			LoginTask loginTask = new LoginTask(LoginActivity.this);
-			loginTask.setMessageLoading("Authentification...");
 			loginTask.execute(LOGIN_API_ENDPOINT_URL);
 		}
 	}
 
 	class LoginTask extends AsyncTask<String, Void, String> {
 		private static final String TAG = "LoginTask";
-		private static final String MESSAGE_LOADING = "Chargement...";
 		private static final String MESSAGE_BUSY = "Server is busy. Please try again.";
 		private static final String MESSAGE_ERROR = "There was an error processing your request. Please try again.";
 		private static final String JSON_SUCCESS = "succès";
 		private static final String JSON_INFO = "info";
 
 		protected Context context = null;
-		private String loadingTitle;
-		private String messageLoading;
 		private String messageBusy;
 		private String messageError;
 		private String jsonSuccess;
@@ -146,7 +136,6 @@ public class LoginActivity extends Activity {
 
 		public LoginTask(Context context) {
 			this.context = context;
-			this.messageLoading = MESSAGE_LOADING;
 			this.messageBusy = MESSAGE_BUSY;
 			this.messageError = MESSAGE_ERROR;
 			this.jsonSuccess = JSON_SUCCESS;
@@ -156,39 +145,6 @@ public class LoginActivity extends Activity {
 		@Override
 		protected String doInBackground(String... urls) {
 			DefaultHttpClient client = new DefaultHttpClient();
-
-			HttpGet httpget = new HttpGet(
-					"http://chron-stats.herokuapp.com/signin");
-
-			try {
-				HttpResponse HTTPResponse = client.execute(httpget);
-				HttpEntity entity = HTTPResponse.getEntity();
-				InputStream is = entity.getContent(); // Create an InputStream
-														// with
-														// the response
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(is, "utf-8"), 8);
-				String line = null;
-				while ((line = reader.readLine()) != null) {
-					line = line.trim();
-					if (line.startsWith("<meta ")
-							&& line.contains("name=\"csrf-token\"")) {
-						String[] metaArgs = line.split(" ");
-						for (int i = 0; i < metaArgs.length; i++) {
-							if (metaArgs[i].startsWith("content=\"")) {
-								authenticity_token = metaArgs[i].split("\"")[1];
-							}
-						}
-					}
-				}
-
-				is.close(); // Close the stream
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e("IO", "" + e);
-			}
-
-			client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(urls[0]);
 			JSONObject holder = new JSONObject();
 			String response = null;
@@ -285,10 +241,6 @@ public class LoginActivity extends Activity {
 			}
 
 			return json;
-		}
-
-		public void setMessageLoading(String messageLoading) {
-			this.messageLoading = messageLoading;
 		}
 
 		private String getStringFromInputStream(InputStream is)

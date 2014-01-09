@@ -19,5 +19,8 @@
     <string name="JSON_EXT">.json</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_matches_list">MatchesListActivity</string>
+    <string name="addMatch_button">Ajouter une feuille de match</string>
+    <string name="title_activity_match_details">MatchDetailsActivity</string>
+    <string name="title_activity_add_match">AddMatchActivity</string>
 
 </resources>

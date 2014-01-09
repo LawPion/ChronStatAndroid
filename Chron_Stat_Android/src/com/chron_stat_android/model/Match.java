@@ -1,6 +1,12 @@
 package com.chron_stat_android.model;
 
-public class Match {
+import java.io.Serializable;
+
+import android.content.Context;
+
+public class Match implements Serializable {
+	
+	private static final long serialVersionUID = -2367056262987197017L;
 	
 	private int id;
 	private String date;
@@ -93,5 +99,4 @@ public class Match {
 	public void setTeam2(Team team2) {
 		this.team2 = team2;
 	}
-
 }
