@@ -19,5 +19,21 @@
     <string name="JSON_EXT">.json</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_matches_list">MatchesListActivity</string>
+    
+    <!-- Affichage time keeping -->
+    
+    <string name="numero">No</string>
+    <string name="name">Nom</string>
+    <string name="goal">But</string>
+    <string name="deuxMin">2min</string>
+    <string name="tps">Tps</string>
+    <string name="penalty">Penalty</string>
+    <string name="card">Carton</string>
+    <string name="resumeTeam1">Résumé Equipe 1</string>
+    <string name="resumeTeam2">Résumé Equipe 2</string>
+    <string name="deuxMinProgress">2min en cours</string>
+    <string name="playPause">Play / Pause</string>
+    <string name="correction">Correction</string>
+    <string name="matchNotStarted">Match non commancé</string>
 
 </resources>
