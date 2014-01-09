@@ -46,14 +46,6 @@
             android:name="com.chron_stat_android.MatchListActivity"
             android:label="@string/title_activity_matches_list" >
         </activity>
-        <activity
-            android:name="com.chron_stat_android.MatchDetailsActivity"
-            android:label="@string/title_activity_match_details" >
-        </activity>
-        <activity
-            android:name="com.chron_stat_android.AddMatchActivity"
-            android:label="@string/title_activity_add_match">
-        </activity>
     </application>
 
 </manifest>
