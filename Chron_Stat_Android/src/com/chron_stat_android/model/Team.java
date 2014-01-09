@@ -1,6 +1,7 @@
 package com.chron_stat_android.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Team implements Serializable {
 
@@ -11,6 +12,7 @@ public class Team implements Serializable {
 	private String homeColor;
 	private String awayColor;
 	private int clubID;
+	private ArrayList<Player> players;
 	
 	public Team() {
 		super();

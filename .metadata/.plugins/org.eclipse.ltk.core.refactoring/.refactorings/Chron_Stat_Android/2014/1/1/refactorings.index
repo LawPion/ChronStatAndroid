@@ -7,3 +7,8 @@
 1388795959595	Rename field 'homecolor'
 1388795966292	Rename field 'awaycolor'
 1388797917513	Rename field 'TYPE_USER'
+1388856748301	Rename type 'MatchesListActivity'
+1388856826439	Copy file
+1388857507733	Copy compilation unit
+1388865756307	Rename local variable 'json'
+1388865914333	Rename local variable 'json'
