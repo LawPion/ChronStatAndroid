@@ -10,7 +10,7 @@ public class Team implements Serializable {
 	private String name;
 	private String homeColor;
 	private String awayColor;
-	private int clubID;
+	private int club_id;
 	private Player[] players;
 	
 	public Team() {
@@ -24,7 +24,7 @@ public class Team implements Serializable {
 		this.name = name;
 		this.homeColor = homeColor;
 		this.awayColor = awayColor;
-		this.clubID = clubID;
+		this.club_id = clubID;
 		this.players = players;
 	}
 
@@ -45,9 +45,10 @@ public class Team implements Serializable {
 	}
 
 	public int getClubID() {
-		return clubID;
+		return club_id;
 	}
 	
+
 	public Player[] getPlayers() {
 		return this.players;
 	}
@@ -58,6 +59,6 @@ public class Team implements Serializable {
 	
 	@Override
 	public String toString() {
-		return name+" ("+clubID+")";
+		return name+" ("+club_id+")";
 	}
 }

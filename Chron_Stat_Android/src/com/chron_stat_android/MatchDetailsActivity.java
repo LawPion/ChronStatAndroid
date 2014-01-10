@@ -23,6 +23,7 @@ public class MatchDetailsActivity extends Activity {
 		setContentView(R.layout.activity_match_details);
 		
 		match = (Match)getIntent().getSerializableExtra("match");
+		currentTeam = (Team)getIntent().getSerializableExtra("team");
 		String date = match.getDate().replace("T", " / ");
 		date.replace("Z", "");
 		date.replace("-", ".");

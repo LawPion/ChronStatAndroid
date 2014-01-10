@@ -40,8 +40,6 @@ public class MatchListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		TextView empty = (TextView)getActivity().findViewById(R.id.empty_list);
-		getListView().setEmptyView(empty);
 
 		gson = new Gson();
 
@@ -114,6 +112,16 @@ public class MatchListFragment extends ListFragment {
 		 *            L'équipe sélectionnée dans la liste.
 		 **********************************************************************/
 		void onItemClick(Match match);
+	}
+
+	/***************************************************************************
+	 * Enregistre le listener à l'interface OnItemClickListener.
+	 * 
+	 * @param listener
+	 *            La classe implémentant OnItemClickListener
+	 **************************************************************************/
+	public void setListener(OnItemClickListener listener) {
+		this.interfaceItemClickListener = listener;
 	}
 
 	/***************************************************************************

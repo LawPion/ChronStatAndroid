@@ -6,19 +6,22 @@
         android:id="@+id/itemNum2Min"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="Numero" />
+        android:text="Numero"
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/itemName2Min"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Nom" />
+        android:text="Nom"
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/itemTps2Min"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="But" />
+        android:text="But"
+        android:textColor="@color/text" />
 
 
 </LinearLayout>

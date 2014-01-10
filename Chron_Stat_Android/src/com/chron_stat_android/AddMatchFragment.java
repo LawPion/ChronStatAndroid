@@ -51,10 +51,9 @@ public class AddMatchFragment extends ListFragment implements
 
 		gson = new Gson();
 
-		currentTeam = ((AddMatchActivity) getActivity()).getTeam();
+		currentTeam = ((Team) getActivity().getIntent().getExtras().getSerializable("team"));
 
 		adapter = new MatchAdapter(getActivity());
-		refreshList();
 	}
 
 	/***************************************************************************
@@ -80,6 +79,7 @@ public class AddMatchFragment extends ListFragment implements
 			task.setListener(this);
 			task.execute(preferences.getString("AuthCookie", "false"),
 					matchesURL);
+			Log.d("DEBUG - add", "first launching getjsontask");
 		} catch (Exception e) {
 			Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
 		}
@@ -120,10 +120,12 @@ public class AddMatchFragment extends ListFragment implements
 	public synchronized void callback(String[] jsons) {
 		if (!hasDependencies) {
 			matches = gson.fromJson(jsons[0], Match[].class);
+			Log.d("DEBUG - add", "downloading dependencies: "+matches.length);
 			getDependencies(matches);
 			hasDependencies = true;
 		} else {
 			Match match = gson.fromJson(jsons[0], Match.class);
+			Log.d("DEBUG - add", "bla gotten: "+match.getChampionship_id());
 			match.setTeam1(gson.fromJson(jsons[1], Team.class));
 			match.setTeam2(gson.fromJson(jsons[2], Team.class));
 			match.getTeam1()
@@ -134,9 +136,12 @@ public class AddMatchFragment extends ListFragment implements
 			match.setGym(gson.fromJson(jsons[6], Gym.class));
 			matches[dependencyCounter] = match;
 			dependencyCounter++;
+			Log.d("DEBUG - add", "number of dependencies gotten: "+dependencyCounter);
 		}
 
 		if (dependencyCounter == matches.length) {
+
+			Log.d("DEBUG - add", "populating list");
 			populateList(matches);
 		}
 	}
@@ -163,7 +168,7 @@ public class AddMatchFragment extends ListFragment implements
 						+ +matches[i].getTeam_id2_id() + "/getPlayers"
 						+ getString(R.string.JSON_EXT);
 				String championshipURL = getString(R.string.SERVER_URL)
-						+ "chamionships/" + matches[i].getChampionship_id()
+						+ "championships/" + matches[i].getChampionship_id()
 						+ getString(R.string.JSON_EXT);
 				String gymURL = getString(R.string.SERVER_URL) + "gyms/"
 						+ matches[i].getGym_id() + getString(R.string.JSON_EXT);
@@ -216,6 +221,7 @@ public class AddMatchFragment extends ListFragment implements
 
 		// Lie au nouvel adapter
 		setListAdapter(adapter);
+		adapter.notifyDataSetChanged();
 	}
 
 	/***************************************************************************
@@ -406,6 +412,7 @@ public class AddMatchFragment extends ListFragment implements
 						parent, false);
 				Match match = (Match) list.get(position);
 				String label;
+				Log.d("DEBUG - add", "currentTeam: "+(currentTeam==null));
 				if (currentTeam.getId() == match.getTeam1().getId()) {
 					label = match.getDate().substring(0,
 							match.getDate().indexOf('T'))

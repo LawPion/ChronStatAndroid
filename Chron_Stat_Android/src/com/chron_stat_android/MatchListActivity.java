@@ -17,6 +17,10 @@ public class MatchListActivity extends MainActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_match_list);
+		
+		MatchListFragment plf = (MatchListFragment) getFragmentManager()
+				.findFragmentById(R.id.fragment_matchesList);
+		plf.setListener(this);
 
 		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 
@@ -71,6 +75,7 @@ public class MatchListActivity extends MainActivity implements
 	 **************************************************************************/
 	public void addAction() {
 		Intent intent = new Intent(this, AddMatchActivity.class);
+		intent.putExtra("team", currentTeam);
 		startActivity(intent);
 	}
 

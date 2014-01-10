@@ -19,7 +19,11 @@ public class AddMatchActivity extends MainActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_match_list);
+		setContentView(R.layout.activity_add_match);
+		
+		AddMatchFragment plf = (AddMatchFragment) getFragmentManager()
+				.findFragmentById(R.id.fragment_matchesList);
+		plf.setListener(this);
 
 		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 
@@ -47,7 +51,7 @@ public class AddMatchActivity extends MainActivity implements
 	 * fragments
 	 **************************************************************************/
 	public void refreshList() {
-		MatchListFragment plf = (MatchListFragment) getFragmentManager()
+		AddMatchFragment plf = (AddMatchFragment) getFragmentManager()
 				.findFragmentById(R.id.fragment_matchesList);
 		plf.refreshList();
 	}
@@ -79,7 +83,8 @@ public class AddMatchActivity extends MainActivity implements
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							match.writeToStorage(AddMatchActivity.this);
-							Intent intent = new Intent(AddMatchActivity.this, MatchDetailsActivity.class);
+							Intent intent = new Intent(AddMatchActivity.this,
+									MatchDetailsActivity.class);
 							intent.putExtra("match", match);
 							intent.putExtra("team", currentTeam);
 							startActivity(intent);
@@ -91,8 +96,8 @@ public class AddMatchActivity extends MainActivity implements
 										int id) {
 									dialog.dismiss();
 								}
-							}).setTitle(R.string.already_created_dialog_title)
-					.setMessage(R.string.already_created_dialog_message);
+							}).setTitle(R.string.confirm_dialog_title)
+					.setMessage(R.string.confirm_dialog_message);
 
 			// Create the AlertDialog
 			dialog = builder.create();
