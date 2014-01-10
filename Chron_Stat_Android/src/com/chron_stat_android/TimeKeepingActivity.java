@@ -31,8 +31,8 @@ public class TimeKeepingActivity extends Activity  {
 	private ArrayList<Fact> facts = new ArrayList<Fact>();
  		
 	// Liste des joueurs des 2 equipes
-	private ArrayList<Player> playersTeam1;
-	private ArrayList<Player> playersTeam2;
+	private ArrayList<Player> playersTeam1 = new ArrayList<Player>();
+	private ArrayList<Player> playersTeam2 = new ArrayList<Player>();
 	
 	// Elements de l'interface graphique
 	private ListView listResumeTeam1, listResumeTeam2, list2MinTeam1, list2MinTeam2;
@@ -64,11 +64,11 @@ public class TimeKeepingActivity extends Activity  {
         setContentView(R.layout.activity_time_keeping);
         
         // Récupération du match
-        match = (Match)getIntent().getExtras().get("match");
+        //match = (Match)getIntent().getExtras().get("match");
         
         // Récupération des 2 équipes
-        playersTeam1 = match.getTeam1().getPlayers();
-        playersTeam2 = match.getTeam2().getPlayers();
+        //playersTeam1 = match.getTeam1().getPlayers();
+        //playersTeam2 = match.getTeam2().getPlayers();
         
         // Définition des listView
     	listResumeTeam1 = (ListView) findViewById(R.id.listResumeTeam1);
