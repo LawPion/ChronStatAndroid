@@ -47,6 +47,10 @@ public class Team implements Serializable {
 		return clubID;
 	}
 	
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+	
 	@Override
 	public String toString() {
 		return name+" ("+clubID+")";

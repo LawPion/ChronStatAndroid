@@ -6,7 +6,6 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,12 +24,15 @@ public class TimeKeepingActivity extends Activity  {
 	final int DURATION_2MIN = 120000;			// Duree d'un 2min
 	final int INTERVAL_DURATION = 1000;			// Temps de rafraichissement des timer
 	
+	// Information sur le match
+	private Match match;
+	
 	// Liste des faits de match
 	private ArrayList<Fact> facts = new ArrayList<Fact>();
  		
 	// Liste des joueurs des 2 equipes
-	private ArrayList<Player> playersTeam1 = new ArrayList<Player>();
-	private ArrayList<Player> playersTeam2 = new ArrayList<Player>();
+	private ArrayList<Player> playersTeam1;
+	private ArrayList<Player> playersTeam2;
 	
 	// Elements de l'interface graphique
 	private ListView listResumeTeam1, listResumeTeam2, list2MinTeam1, list2MinTeam2;
@@ -61,6 +63,13 @@ public class TimeKeepingActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_keeping);
         
+        // Récupération du match
+        match = (Match)getIntent().getExtras().get("match");
+        
+        // Récupération des 2 équipes
+        playersTeam1 = match.getTeam1().getPlayers();
+        playersTeam2 = match.getTeam2().getPlayers();
+        
         // Définition des listView
     	listResumeTeam1 = (ListView) findViewById(R.id.listResumeTeam1);
     	listResumeTeam2 = (ListView) findViewById(R.id.listResumeTeam2);
@@ -82,8 +91,7 @@ public class TimeKeepingActivity extends Activity  {
     	lblScore = (TextView) findViewById(R.id.lblScore);
     	lblTps = (TextView) findViewById(R.id.lblTps);
                 
-    	// Initiatialisaiton des joueurs et des affichage des listes et du score
-        initPlayers();
+    	// Initiatialisaiton des affichage des listes et du score
         initListView();
         lblScore.setText(scoreTeam1 + " - " + scoreTeam2);
         
@@ -98,7 +106,6 @@ public class TimeKeepingActivity extends Activity  {
 			@Override
 			public void onFinish() {
 				lblTps.setText("Match terminé");
-				
 			}
 		};
 		
@@ -399,18 +406,13 @@ public class TimeKeepingActivity extends Activity  {
         		}
         	}
         });
-        
-        
     }
 
     @Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_terminate:
-			
-			Intent intent = new Intent(this,LoginActivity.class);
-			startActivity(intent);
-			
+			terminate();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -424,6 +426,11 @@ public class TimeKeepingActivity extends Activity  {
         return true;
     }
     
+	private void terminate(){
+		Intent intent = new Intent(this,LoginActivity.class);
+		startActivity(intent);
+	}
+	
     private void initListView(){
 
         // Remplissage liste resume team 2 --------------------------------------------------
@@ -476,24 +483,5 @@ public class TimeKeepingActivity extends Activity  {
         		new int[] {R.id.itemNum2Min, R.id.itemName2Min, R.id.itemTps2Min});
         
         list2MinTeam2.setAdapter(adapter2MinTeam2);
-    }
-    
-    private void initPlayers(){
-    	playersTeam1.add(new Player(4,"Romain Therisod",1));
-    	playersTeam1.add(new Player(6,"Alain Fresco",1));
-    	playersTeam1.add(new Player(23,"Mohamed Tricki",1));
-    	playersTeam1.add(new Player(45,"Laurien Walpen",1));
-    	playersTeam1.add(new Player(12,"Fabio Crescenzio",1));
-    	playersTeam1.add(new Player(21,"Alexandre Grillion",1));
-    	playersTeam1.add(new Player(3,"Adrian Froger",1));
-    	playersTeam1.add(new Player(7,"Kevin Jaquier",1));
-    	playersTeam1.add(new Player(14,"John Doe",1));
-    	playersTeam1.add(new Player(9,"Henry Amstuts",1));
-    	
-    	playersTeam2.add(new Player(24,"José Marino",2));
-    	playersTeam2.add(new Player(21,"Alain Prost",2));
-    	playersTeam2.add(new Player(23,"Alfred Dist",2));
-    	playersTeam2.add(new Player(7,"Timon Visul",2));
-    	playersTeam2.add(new Player(12,"Alberto Xio",2));
     }
 }
