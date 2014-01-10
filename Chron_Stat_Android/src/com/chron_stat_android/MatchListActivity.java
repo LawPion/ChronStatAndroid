@@ -101,6 +101,7 @@ public class MatchListActivity extends MainActivity implements
 	public void onItemClick(Match match) {
 		Intent intent = new Intent(this, MatchDetailsActivity.class);
 		intent.putExtra("match", match);
+		intent.putExtra("team", currentTeam);
 		startActivity(intent);
 	}
 

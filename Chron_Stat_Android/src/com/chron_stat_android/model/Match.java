@@ -1,21 +1,12 @@
 package com.chron_stat_android.model;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 
 import com.chron_stat_android.R;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import android.content.Context;
-import android.util.Base64;
-import android.util.Log;
 
 public class Match implements Serializable {
 
@@ -88,6 +79,26 @@ public class Match implements Serializable {
 		return championship_id;
 	}
 
+	public int setChampionship_id() {
+		return championship_id;
+	}
+
+	public Championship getChampionship() {
+		return championship;
+	}
+
+	public void setChampionship(Championship championship) {
+		this.championship = championship;
+	}
+
+	public Gym getGym() {
+		return gym;
+	}
+
+	public void setGym(Gym gym) {
+		this.gym = gym;
+	}
+
 	public int getGym_id() {
 		return gym_id;
 	}
@@ -116,13 +127,17 @@ public class Match implements Serializable {
 		this.team2 = team2;
 	}
 	
+	public Fact[] getFacts() {
+		return this.facts;
+	}
+	
 	public void setFacts(ArrayList<Fact> facts) {
-		
+		this.facts = facts.toArray(new Fact[0]);
 	}
 
 	public void writeToStorage(Context context) {
 		Gson gson = new Gson();
-		String filename = ""+id+R.string.JSON_EXT;
+		String filename = "match_"+id+R.string.JSON_EXT;
 		String json = gson.toJson(this, Match.class);
 		FileOutputStream outputStream;
 

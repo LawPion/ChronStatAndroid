@@ -1,56 +1,100 @@
 package com.chron_stat_android.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Player implements Serializable {
-	
+
 	private static final long serialVersionUID = -4758151210188430466L;
-	
+
+	// as provided by json model
 	private int id;
-	private int num;
 	private String name;
+	private String firstname;
+	private String birthday;
+	private String phone;
+	private boolean sexe;
+	private int noDossard;
+	private int no_license;
+	private String dateQualification;
+	
+	// auxiliary attributes
 	private int nbrGoal = 0;
 	private int nbr2Min = 0;
-	
-	public static ArrayList<String> playersTeam1 = new ArrayList<String>();
-	public static ArrayList<String> playersTeam2 = new ArrayList<String>();
-	
-	public Player(int num,String name,int team){
-		this.num = num;
+
+	public Player() {
+		super();
+	}
+
+	public Player(int id, String name, String firstname, String birthday,
+			String phone, boolean sexe, int noDossard, int no_license,
+			String dateQualification, int nbrGoal, int nbr2Min) {
+		super();
+		this.id = id;
 		this.name = name;
-		
-		if(team == 1)
-			playersTeam1.add(name);
-		else
-			playersTeam2.add(name);
+		this.firstname = firstname;
+		this.birthday = birthday;
+		this.phone = phone;
+		this.sexe = sexe;
+		this.noDossard = noDossard;
+		this.no_license = no_license;
+		this.dateQualification = dateQualification;
+		this.nbrGoal = nbrGoal;
+		this.nbr2Min = nbr2Min;
 	}
-	
-	public int getNum(){
-		return num;
+
+	public String getFirstname() {
+		return firstname;
 	}
-	
-	public String getName(){
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public boolean isFemale() {
+		return sexe;
+	}
+
+	public int getNoDossard() {
+		return noDossard;
+	}
+
+	public int getNo_license() {
+		return no_license;
+	}
+
+	public String getDateQualification() {
+		return dateQualification;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
 		return name;
 	}
-	
-	public int getNbrGoal(){
+
+	public int getNbrGoal() {
 		return nbrGoal;
 	}
-	
-	public int getNbr2Min(){
+
+	public int getNbr2Min() {
 		return nbr2Min;
 	}
-	
-	public void AddGoal(){
+
+	public void AddGoal() {
 		nbrGoal++;
 	}
 
-	public void Add2Min(){
+	public void Add2Min() {
 		nbr2Min++;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return this.name;
 	}
 }
