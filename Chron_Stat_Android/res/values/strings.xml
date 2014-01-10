@@ -39,5 +39,18 @@
     <string name="timekeeping_button">Romain!</string>
     <string name="title_activity_match_details">MatchDetailsActivity</string>
     <string name="title_activity_add_match">AddMatchActivity</string>
+    <string name="empty_list">Aucun élément</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Annuler</string>
+    <string name="already_created_dialog_title">Match déjà créé</string>
+    <string name="already_created_dialog_message">Ce match a déjà été créé, veuillez en choisir un autre.</string>
+    <string name="confirm_dialog_title">Confirmer?</string>
+    <string name="confirm_dialog_message">Êtes-vous sûr de vouloir créer le match sélectionné?</string>
+    <string name="opponent_team">Équipe adverse</string>
+    <string name="date">Date / heure</string>
+    <string name="gym">Salle</string>
+    <string name="status">Status</string>
+    <string name="send_button">Envoyer</string>
+    <string name="launch_button">Démarrer</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.chron_stat_android;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -31,8 +32,8 @@ public class TimeKeepingActivity extends Activity  {
 	private ArrayList<Fact> facts = new ArrayList<Fact>();
  		
 	// Liste des joueurs des 2 equipes
-	private ArrayList<Player> playersTeam1 = new ArrayList<Player>();
-	private ArrayList<Player> playersTeam2 = new ArrayList<Player>();
+	private ArrayList<Player> playersTeam1;
+	private ArrayList<Player> playersTeam2;
 	
 	// Elements de l'interface graphique
 	private ListView listResumeTeam1, listResumeTeam2, list2MinTeam1, list2MinTeam2;
@@ -64,11 +65,11 @@ public class TimeKeepingActivity extends Activity  {
         setContentView(R.layout.activity_time_keeping);
         
         // Récupération du match
-        //match = (Match)getIntent().getExtras().get("match");
+        match = (Match)getIntent().getExtras().get("match");
         
         // Récupération des 2 équipes
-        //playersTeam1 = match.getTeam1().getPlayers();
-        //playersTeam2 = match.getTeam2().getPlayers();
+        playersTeam1 = new ArrayList<Player>(Arrays.asList(match.getTeam1().getPlayers()));
+        playersTeam2 = new ArrayList<Player>(Arrays.asList(match.getTeam2().getPlayers()));
         
         // Définition des listView
     	listResumeTeam1 = (ListView) findViewById(R.id.listResumeTeam1);
@@ -140,7 +141,7 @@ public class TimeKeepingActivity extends Activity  {
         		adb.setTitle("But pour l'equipe 1");
         		        		
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(Player.playersTeam1.toArray(new String[Player.playersTeam1.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -170,7 +171,7 @@ public class TimeKeepingActivity extends Activity  {
         		adb.setTitle("2min pour l'equipe 1");
         		        		
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(Player.playersTeam1.toArray(new String[Player.playersTeam1.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -182,7 +183,7 @@ public class TimeKeepingActivity extends Activity  {
                         
                         // Ajout d'un nouvelle entrée dans la liste des 2min en cours
                         map = new HashMap<String, String>();
-                        map.put("Numero", ""+playersTeam1.get(arg).getNum());
+                        map.put("Numero", ""+playersTeam1.get(arg).getNoDossard());
                         map.put("Nom", ""+playersTeam1.get(arg).getName());
                         map.put("Tps", ""+DURATION_2MIN /INTERVAL_DURATION);
                         listItem2MinTeam1.add(map);
@@ -238,7 +239,7 @@ public class TimeKeepingActivity extends Activity  {
         		adb.setTitle("Penalty pour l'equipe 1");
         		        		
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(Player.playersTeam1.toArray(new String[Player.playersTeam1.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -269,7 +270,7 @@ public class TimeKeepingActivity extends Activity  {
         		adb.setTitle("But pour l'equipe 2");
         		        		
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(Player.playersTeam2.toArray(new String[Player.playersTeam2.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -301,7 +302,7 @@ public class TimeKeepingActivity extends Activity  {
         		adb.setTitle("2min pour l'equipe 2");
         		        		
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(Player.playersTeam2.toArray(new String[Player.playersTeam2.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -313,7 +314,7 @@ public class TimeKeepingActivity extends Activity  {
                         
                         // Ajout d'un nouvelle entrée dans la liste des 2min en cours
                         map = new HashMap<String, String>();
-                        map.put("Numero", ""+playersTeam2.get(arg).getNum());
+                        map.put("Numero", ""+playersTeam2.get(arg).getNoDossard());
                         map.put("Nom", ""+playersTeam2.get(arg).getName());
                         map.put("Tps", ""+DURATION_2MIN / INTERVAL_DURATION);
                         listItem2MinTeam2.add(map);
@@ -368,7 +369,7 @@ public class TimeKeepingActivity extends Activity  {
         		adb.setTitle("Penalty pour l'equipe 2");
         		        		
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(Player.playersTeam2.toArray(new String[Player.playersTeam2.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -437,7 +438,7 @@ public class TimeKeepingActivity extends Activity  {
 
 		for(Player player : playersTeam1){
 	        map = new HashMap<String, String>();
-	        map.put("Numero", ""+player.getNum());
+	        map.put("Numero", ""+player.getNoDossard());
 	        map.put("Nom", player.getName());
 	        map.put("But", ""+player.getNbrGoal());
 	        map.put("DeuxMin", ""+player.getNbr2Min());
@@ -455,7 +456,7 @@ public class TimeKeepingActivity extends Activity  {
         
 		for(Player player : playersTeam2){
 	        map = new HashMap<String, String>();
-	        map.put("Numero", ""+player.getNum());
+	        map.put("Numero", ""+player.getNoDossard());
 	        map.put("Nom", player.getName());
 	        map.put("But", ""+player.getNbrGoal());
 	        map.put("DeuxMin", ""+player.getNbr2Min());

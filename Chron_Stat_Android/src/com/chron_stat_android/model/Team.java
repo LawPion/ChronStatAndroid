@@ -1,7 +1,6 @@
 package com.chron_stat_android.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Team implements Serializable {
 
@@ -11,22 +10,24 @@ public class Team implements Serializable {
 	private String name;
 	private String homeColor;
 	private String awayColor;
-	private int clubID;
-	private ArrayList<Player> players;
+	private int club_id;
+	private Player[] players;
 	
 	public Team() {
 		super();
 	}
-
-	public Team(int id, String name, String homecolor, String awaycolor, int clubID) {
+	
+	public Team(int id, String name, String homeColor, String awayColor,
+			int clubID, Player[] players) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.homeColor = homecolor;
-		this.awayColor = awaycolor;
-		this.clubID = clubID;
+		this.homeColor = homeColor;
+		this.awayColor = awayColor;
+		this.club_id = clubID;
+		this.players = players;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -44,15 +45,20 @@ public class Team implements Serializable {
 	}
 
 	public int getClubID() {
-		return clubID;
+		return club_id;
 	}
 	
-	public ArrayList<Player> getPlayers(){
-		return players;
+
+	public Player[] getPlayers() {
+		return this.players;
+	}
+	
+	public void setPlayers(Player[] players) {
+		this.players = players;
 	}
 	
 	@Override
 	public String toString() {
-		return name+" ("+clubID+")";
+		return name+" ("+club_id+")";
 	}
 }

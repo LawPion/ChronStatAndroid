@@ -1,15 +1,20 @@
 package com.chron_stat_android;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.chron_stat_android.model.Championship;
+import com.chron_stat_android.model.Gym;
+import com.chron_stat_android.model.Match;
+import com.chron_stat_android.model.Player;
+import com.chron_stat_android.model.Team;
+import com.chron_stat_android.tasks.GetJSONTask;
+import com.google.gson.Gson;
+
+import android.os.Bundle;
 import android.app.ListFragment;
 import android.content.Context;
-import android.os.Bundle;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +22,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.chron_stat_android.model.Match;
-import com.google.gson.Gson;
-
-public class MatchListFragment extends ListFragment {
+public class AddMatchFragment extends ListFragment implements
+		GetJSONTask.CallBackListener {
 
 	// L'adapteur de la liste
 	private MatchAdapter adapter;
@@ -30,6 +33,11 @@ public class MatchListFragment extends ListFragment {
 
 	// Objet Gson simplifiant la manipulation de chaînes JSON
 	private static Gson gson;
+
+	private Team currentTeam;
+	private Match[] matches;
+	private int dependencyCounter = 0;
+	private boolean hasDependencies = false;
 
 	/***************************************************************************
 	 * A la création du fragment on crée un objet Gson et le nouvel adapteur de
@@ -43,60 +51,38 @@ public class MatchListFragment extends ListFragment {
 
 		gson = new Gson();
 
+		currentTeam = ((Team) getActivity().getIntent().getExtras().getSerializable("team"));
+
 		adapter = new MatchAdapter(getActivity());
-		refreshList();
 	}
 
 	/***************************************************************************
 	 * Rafraichit la liste en téléchargeant un nouveau JSON depuis le serveur.
 	 **************************************************************************/
 	public void refreshList() {
-		Context context = getActivity();
-		ArrayList<Match> matches = new ArrayList<Match>();
+		// Efface le contenu de la liste
+		adapter.clear();
 
-		Gson gson = new Gson();
-		String[] fileList = context.fileList();
-		StringBuffer buffer;
-		String line, json = null;
+		try {
+			// Préférences contenant le token utilisé pour l'authentification
+			SharedPreferences preferences = getActivity().getSharedPreferences(
+					"CurrentUser", MainActivity.MODE_PRIVATE);
 
-		for (int i = 0; i < fileList.length; i++) {
-			if (fileList[i].startsWith("match_")) {
-				buffer = new StringBuffer();
+			String matchesURL = getString(R.string.SERVER_URL) + "matches"
+					+ getString(R.string.JSON_EXT);
 
-				FileInputStream fis;
-				try {
-					fis = context.openFileInput(fileList[i]);
-					BufferedReader reader = new BufferedReader(
-							new InputStreamReader(fis));
-					if (fis != null) {
-						while ((line = reader.readLine()) != null) {
-							buffer.append(line + "\n");
-						}
-					}
-					fis.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				matches.add(gson.fromJson(json, Match.class));
-			}
+			/*
+			 * Nouvelle GetJSONTask gérant la récupération d'un JSON depuis une
+			 * URL.
+			 */
+			GetJSONTask task = new GetJSONTask();
+			task.setListener(this);
+			task.execute(preferences.getString("AuthCookie", "false"),
+					matchesURL);
+			Log.d("DEBUG - add", "first launching getjsontask");
+		} catch (Exception e) {
+			Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
 		}
-
-		populateList(matches.toArray(new Match[0]));
-	}
-
-	/***************************************************************************
-	 * Appelle l'implementation de la méthode onListFragmentItemClick dans
-	 * l'activité contenant ce fragment.
-	 * 
-	 * @see android.app.ListFragment#onListItemClick(android.widget.ListView,
-	 *      android.view.View, int, long)
-	 **************************************************************************/
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		interfaceItemClickListener.onItemClick(adapter.getItem(position));
 	}
 
 	/***************************************************************************
@@ -125,6 +111,96 @@ public class MatchListFragment extends ListFragment {
 	}
 
 	/***************************************************************************
+	 * Callback appelé quand la récupération du JSON est terminée. Rempli la
+	 * liste du fragment avec celle retournée par le serveur.
+	 * 
+	 * @see com.chron_stats_android_prototype.tasks.GetJSONTask.CallBackListener#callback(java.lang.String)
+	 **************************************************************************/
+	@Override
+	public synchronized void callback(String[] jsons) {
+		if (!hasDependencies) {
+			matches = gson.fromJson(jsons[0], Match[].class);
+			Log.d("DEBUG - add", "downloading dependencies: "+matches.length);
+			getDependencies(matches);
+			hasDependencies = true;
+		} else {
+			Match match = gson.fromJson(jsons[0], Match.class);
+			Log.d("DEBUG - add", "bla gotten: "+match.getChampionship_id());
+			match.setTeam1(gson.fromJson(jsons[1], Team.class));
+			match.setTeam2(gson.fromJson(jsons[2], Team.class));
+			match.getTeam1()
+					.setPlayers(gson.fromJson(jsons[3], Player[].class));
+			match.getTeam2()
+					.setPlayers(gson.fromJson(jsons[4], Player[].class));
+			match.setChampionship(gson.fromJson(jsons[5], Championship.class));
+			match.setGym(gson.fromJson(jsons[6], Gym.class));
+			matches[dependencyCounter] = match;
+			dependencyCounter++;
+			Log.d("DEBUG - add", "number of dependencies gotten: "+dependencyCounter);
+		}
+
+		if (dependencyCounter == matches.length) {
+
+			Log.d("DEBUG - add", "populating list");
+			populateList(matches);
+		}
+	}
+
+	private void getDependencies(Match[] matches) {
+		// Préférences contenant le token utilisé pour l'authentification
+		SharedPreferences preferences = getActivity().getSharedPreferences(
+				"CurrentUser", MainActivity.MODE_PRIVATE);
+
+		for (int i = 0; i < matches.length; i++) {
+			try {
+				String matchURL = getString(R.string.SERVER_URL) + "matches/"
+						+ matches[i].getId() + getString(R.string.JSON_EXT);
+				String team1URL = getString(R.string.SERVER_URL) + "teams/"
+						+ matches[i].getTeam_id1_id()
+						+ getString(R.string.JSON_EXT);
+				String team2URL = getString(R.string.SERVER_URL) + "teams/"
+						+ +matches[i].getTeam_id2_id()
+						+ getString(R.string.JSON_EXT);
+				String players1URL = getString(R.string.SERVER_URL) + "teams/"
+						+ matches[i].getTeam_id1_id() + "/getPlayers"
+						+ getString(R.string.JSON_EXT);
+				String players2URL = getString(R.string.SERVER_URL) + "teams/"
+						+ +matches[i].getTeam_id2_id() + "/getPlayers"
+						+ getString(R.string.JSON_EXT);
+				String championshipURL = getString(R.string.SERVER_URL)
+						+ "championships/" + matches[i].getChampionship_id()
+						+ getString(R.string.JSON_EXT);
+				String gymURL = getString(R.string.SERVER_URL) + "gyms/"
+						+ matches[i].getGym_id() + getString(R.string.JSON_EXT);
+
+				/*
+				 * Nouvelle GetJSONTask gérant la récupération d'un JSON depuis
+				 * une URL.
+				 */
+				GetJSONTask task = new GetJSONTask();
+				task.setListener(this);
+				task.execute(preferences.getString("AuthCookie", "false"),
+						matchURL, team1URL, team2URL, players1URL, players2URL,
+						championshipURL, gymURL);
+			} catch (Exception e) {
+				Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
+			}
+		}
+	}
+
+	/***************************************************************************
+	 * Appelle l'implementation de la méthode onListFragmentItemClick dans
+	 * l'activité contenant ce fragment.
+	 * 
+	 * @see android.app.ListFragment#onListItemClick(android.widget.ListView,
+	 *      android.view.View, int, long)
+	 **************************************************************************/
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		interfaceItemClickListener.onItemClick(adapter.getItem(position));
+	}
+
+	/***************************************************************************
 	 * Peuple la liste du fragment avec les utilisateurs contenus dans le
 	 * tableau passé en paramètre.
 	 * 
@@ -138,11 +214,14 @@ public class MatchListFragment extends ListFragment {
 		// Efface le contenu de l'adapteur de liste
 		adapter.clear();
 
+		// Ajoute chaque utilisateur du tableau passé en paramètre
 		for (int i = 0; i < matches.length; i++) {
 			adapter.addItem(matches[i]);
 		}
 
+		// Lie au nouvel adapter
 		setListAdapter(adapter);
+		adapter.notifyDataSetChanged();
 	}
 
 	/***************************************************************************
@@ -187,7 +266,7 @@ public class MatchListFragment extends ListFragment {
 		 * prenant pas en charge le polymorphisme, seule la classe Match est
 		 * représentée ici.
 		 */
-		private static final int TYPE_TEAM = 0;
+		private static final int TYPE_MATCH = 0;
 
 		/*
 		 * Nombre de types d'objets différents pouvant être contenu dans la
@@ -327,14 +406,22 @@ public class MatchListFragment extends ListFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			int type = getItemViewType(position);
 			switch (type) {
-			case TYPE_TEAM:
+			case TYPE_MATCH:
 				// Match edition logic
 				convertView = inflater.inflate(R.layout.list_item_match,
 						parent, false);
 				Match match = (Match) list.get(position);
-				String label = match.getDate().substring(0,
-						match.getDate().indexOf('T'))
-						+ " - " + match.getTeam2().getName();
+				String label;
+				Log.d("DEBUG - add", "currentTeam: "+(currentTeam==null));
+				if (currentTeam.getId() == match.getTeam1().getId()) {
+					label = match.getDate().substring(0,
+							match.getDate().indexOf('T'))
+							+ " - " + match.getTeam1().getName();
+				} else {
+					label = match.getDate().substring(0,
+							match.getDate().indexOf('T'))
+							+ " - " + match.getTeam2().getName();
+				}
 				((TextView) convertView.findViewById(R.id.textView_matchItem))
 						.setText(label);
 			default:
