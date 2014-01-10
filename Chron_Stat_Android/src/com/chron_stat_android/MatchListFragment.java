@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class MatchListFragment extends ListFragment {
 		gson = new Gson();
 
 		adapter = new MatchAdapter(getActivity());
-		refreshList();
 	}
 
 	/***************************************************************************
@@ -57,10 +57,12 @@ public class MatchListFragment extends ListFragment {
 		Gson gson = new Gson();
 		String[] fileList = context.fileList();
 		StringBuffer buffer;
-		String line, json = null;
+		String line;
 
 		for (int i = 0; i < fileList.length; i++) {
+			Log.d("DEBUG - json", "testing file "+fileList[i]);
 			if (fileList[i].startsWith("match_")) {
+				Log.d("DEBUG - json", "formating file "+fileList[i]);
 				buffer = new StringBuffer();
 
 				FileInputStream fis;
@@ -79,8 +81,9 @@ public class MatchListFragment extends ListFragment {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				Log.d("DEBUG - json", "file content "+buffer.toString());
 				
-				matches.add(gson.fromJson(json, Match.class));
+				matches.add(gson.fromJson(buffer.toString(), Match.class));
 			}
 		}
 
@@ -187,7 +190,7 @@ public class MatchListFragment extends ListFragment {
 		 * prenant pas en charge le polymorphisme, seule la classe Match est
 		 * représentée ici.
 		 */
-		private static final int TYPE_TEAM = 0;
+		private static final int TYPE_MATCH = 0;
 
 		/*
 		 * Nombre de types d'objets différents pouvant être contenu dans la
@@ -326,8 +329,9 @@ public class MatchListFragment extends ListFragment {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			int type = getItemViewType(position);
+			Log.d("DEBUG - view", list.get(position).getClass().getName());
 			switch (type) {
-			case TYPE_TEAM:
+			case TYPE_MATCH:
 				// Match edition logic
 				convertView = inflater.inflate(R.layout.list_item_match,
 						parent, false);
