@@ -139,9 +139,14 @@ public class TimeKeepingActivity extends Activity  {
         		        		
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("But pour l'equipe 1");
-        		        		
+
+        		Player[] playersArray = playersTeam1.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -169,9 +174,14 @@ public class TimeKeepingActivity extends Activity  {
         		        		
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("2min pour l'equipe 1");
-        		        		
+
+        		Player[] playersArray = playersTeam1.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -237,9 +247,14 @@ public class TimeKeepingActivity extends Activity  {
 				
 				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("Penalty pour l'equipe 1");
-        		        		
+
+        		Player[] playersArray = playersTeam2.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -268,9 +283,14 @@ public class TimeKeepingActivity extends Activity  {
         		        		
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("But pour l'equipe 2");
-        		        		
+
+        		Player[] playersArray = playersTeam2.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -300,9 +320,14 @@ public class TimeKeepingActivity extends Activity  {
         		        		
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("2min pour l'equipe 2");
-        		        		
+
+        		Player[] playersArray = playersTeam2.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
@@ -367,9 +392,14 @@ public class TimeKeepingActivity extends Activity  {
 				
 				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("Penalty pour l'equipe 2");
-        		        		
+
+        		Player[] playersArray = playersTeam2.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
         		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
