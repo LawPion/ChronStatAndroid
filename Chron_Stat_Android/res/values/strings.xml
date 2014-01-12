@@ -52,5 +52,8 @@
     <string name="status">Status</string>
     <string name="send_button">Envoyer</string>
     <string name="launch_button">Démarrer</string>
+    <string name="yellow_card">Carton Jaune</string>
+    <string name="red_card">Carton Rouge</string>
+    
 
 </resources>

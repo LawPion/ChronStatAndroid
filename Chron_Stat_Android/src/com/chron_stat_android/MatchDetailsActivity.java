@@ -44,38 +44,36 @@ public class MatchDetailsActivity extends Activity implements
 		((TextView) findViewById(R.id.match_sheet_status))
 				.setText("TODO STATUS");
 
-		((Button) findViewById(R.id.delete_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						new File(getFilesDir(), "match_" + match.getId()
-								+ getString(R.string.JSON_EXT)).delete();
-						Intent intent = new Intent(getApplicationContext(),
-								MatchListActivity.class);
-						intent.putExtra("team", currentTeam);
-						startActivity(intent);
-					}
-				});
-		((Button) findViewById(R.id.send_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						sendMatch();
-						Intent intent = new Intent(getApplicationContext(),
-								TeamListActivity.class);
-						startActivity(intent);
-					}
-				});
-		((Button) findViewById(R.id.launch_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						Intent intent = new Intent(getApplicationContext(),
-								TimeKeepingActivity.class);
-						intent.putExtra("match", match);
-						startActivity(intent);
-					}
-				});
+		((Button)findViewById(R.id.delete_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				new File(getFilesDir(), "match_" + match.getId()
+						+ getString(R.string.JSON_EXT)).delete();
+				Intent intent = new Intent(getApplicationContext(),
+						MatchListActivity.class);
+				intent.putExtra("team", currentTeam);
+				startActivity(intent);
+			}
+		});
+		((Button)findViewById(R.id.send_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				sendMatch();
+				Intent intent = new Intent(getApplicationContext(),
+						TeamListActivity.class);
+				startActivity(intent);
+			}
+		});
+		((Button)findViewById(R.id.launch_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(),
+						TimeKeepingActivity.class);
+				intent.putExtra("match", match);
+				intent.putExtra("team", currentTeam);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

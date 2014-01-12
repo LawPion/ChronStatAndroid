@@ -134,10 +134,10 @@ public final class R {
     public static final class string {
         public static final int JSON_EXT=0x7f06000f;
         public static final int SERVER_URL=0x7f06000e;
-        public static final int action_forgot_password=0x7f060035;
+        public static final int action_forgot_password=0x7f060037;
         public static final int action_settings=0x7f060001;
-        public static final int action_sign_in_register=0x7f060033;
-        public static final int action_sign_in_short=0x7f060034;
+        public static final int action_sign_in_register=0x7f060035;
+        public static final int action_sign_in_short=0x7f060036;
         /**  Affichage time keeping 
          */
         public static final int action_terminate=0x7f060012;
@@ -159,15 +159,15 @@ public final class R {
         public static final int edit_button=0x7f060008;
         public static final int edit_title=0x7f060007;
         public static final int empty_list=0x7f060023;
-        public static final int error_field_required=0x7f06003a;
-        public static final int error_incorrect_password=0x7f060039;
-        public static final int error_invalid_email=0x7f060037;
-        public static final int error_invalid_password=0x7f060038;
+        public static final int error_field_required=0x7f06003c;
+        public static final int error_incorrect_password=0x7f06003b;
+        public static final int error_invalid_email=0x7f060039;
+        public static final int error_invalid_password=0x7f06003a;
         public static final int goal=0x7f060015;
         public static final int gym=0x7f06002c;
         public static final int hello_world=0x7f060002;
         public static final int launch_button=0x7f06002f;
-        public static final int login_progress_signing_in=0x7f060036;
+        public static final int login_progress_signing_in=0x7f060038;
         public static final int login_title=0x7f060003;
         public static final int matchNotStarted=0x7f06001f;
         public static final int name=0x7f060014;
@@ -179,8 +179,9 @@ public final class R {
         public static final int playPause=0x7f06001d;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f060031;
-        public static final int prompt_password=0x7f060032;
+        public static final int prompt_email=0x7f060033;
+        public static final int prompt_password=0x7f060034;
+        public static final int red_card=0x7f060031;
         public static final int resumeTeam1=0x7f06001a;
         public static final int resumeTeam2=0x7f06001b;
         public static final int send_button=0x7f06002e;
@@ -192,9 +193,10 @@ public final class R {
         public static final int title_activity_match_details=0x7f060021;
         public static final int title_activity_matches_list=0x7f060011;
         public static final int title_activity_team_list=0x7f06000d;
-        public static final int title_activity_test_login=0x7f060030;
+        public static final int title_activity_test_login=0x7f060032;
         public static final int tps=0x7f060017;
         public static final int username=0x7f060004;
+        public static final int yellow_card=0x7f060030;
     }
     public static final class style {
         /** 
