@@ -126,27 +126,32 @@ public class Match implements Serializable {
 	public void setTeam2(Team team2) {
 		this.team2 = team2;
 	}
-	
+
 	public Fact[] getFacts() {
 		return this.facts;
 	}
-	
+
 	public void setFacts(ArrayList<Fact> facts) {
 		this.facts = facts.toArray(new Fact[0]);
 	}
 
 	public void writeToStorage(Context context) {
 		Gson gson = new Gson();
-		String filename = "match_"+id+R.string.JSON_EXT;
+		String filename = "match_" + id + context.getString(R.string.JSON_EXT);
 		String json = gson.toJson(this, Match.class);
 		FileOutputStream outputStream;
 
 		try {
-		  outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-		  outputStream.write(json.getBytes());
-		  outputStream.close();
+			outputStream = context.openFileOutput(filename,
+					Context.MODE_PRIVATE);
+			outputStream.write(json.getBytes());
+			outputStream.close();
 		} catch (Exception e) {
-		  e.printStackTrace();
+			e.printStackTrace();
 		}
+	}
+
+	public void deleteFromStorage(Context context) {
+		context.deleteFile("match_" + id + context.getString(R.string.JSON_EXT));
 	}
 }

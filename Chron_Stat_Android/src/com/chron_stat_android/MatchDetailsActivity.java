@@ -1,7 +1,5 @@
 package com.chron_stat_android;
 
-import java.io.File;
-
 import com.chron_stat_android.model.Match;
 import com.chron_stat_android.model.MatchSheet;
 import com.chron_stat_android.model.Team;
@@ -47,8 +45,7 @@ public class MatchDetailsActivity extends Activity implements
 		((Button)findViewById(R.id.delete_button)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				new File(getFilesDir(), "match_" + match.getId()
-						+ getString(R.string.JSON_EXT)).delete();
+				match.deleteFromStorage(MatchDetailsActivity.this);
 				Intent intent = new Intent(getApplicationContext(),
 						MatchListActivity.class);
 				intent.putExtra("team", currentTeam);

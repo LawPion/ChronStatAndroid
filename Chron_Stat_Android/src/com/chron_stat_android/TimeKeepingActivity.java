@@ -2,7 +2,6 @@ package com.chron_stat_android;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.HashMap;
 
 import android.app.Activity;
