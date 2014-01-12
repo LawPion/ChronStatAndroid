@@ -4,6 +4,8 @@ public enum TypeFact {
 	
 	GOAL("but"), 
 	TWO_MIN("2min"),
+	YELLOW_CARD("carton jaune"),
+	RED_CARD("carton rouge"),
 	PENALTY("penalty");
 	
 	String txtType;

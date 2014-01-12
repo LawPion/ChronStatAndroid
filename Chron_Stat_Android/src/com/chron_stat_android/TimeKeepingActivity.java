@@ -2,10 +2,12 @@ package com.chron_stat_android;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +27,9 @@ public class TimeKeepingActivity extends Activity  {
 	final int DURATION_2MIN = 120000;			// Duree d'un 2min
 	final int INTERVAL_DURATION = 1000;			// Temps de rafraichissement des timer
 	
-	// Information sur le match
+	// Information sur le match et l equipe courante
 	private Match match;
+	private Team currentTeam;
 	
 	// Liste des faits de match
 	private ArrayList<Fact> facts = new ArrayList<Fact>();
@@ -37,7 +40,8 @@ public class TimeKeepingActivity extends Activity  {
 	
 	// Elements de l'interface graphique
 	private ListView listResumeTeam1, listResumeTeam2, list2MinTeam1, list2MinTeam2;
-	private Button btnGoalTeam1, btn2MinTeam1, btnGoalTeam2, btn2MinTeam2, btnPenaltyTeam1, btnPenaltyTeam2, btnPlayPause;
+	private Button btnGoalTeam1, btn2MinTeam1, btnGoalTeam2, btn2MinTeam2, btnPenaltyTeam1,
+				   btnPenaltyTeam2, btnPlayPause, btnCardTeam1, btnCardTeam2;
 	private TextView lblScore, lblTps;
 	
 	// Liste des informations définit dans les listView
@@ -64,8 +68,9 @@ public class TimeKeepingActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_keeping);
         
-        // Récupération du match
+        // Récupération du match et de l'equipe courante
         match = (Match)getIntent().getExtras().get("match");
+        currentTeam = (Team)getIntent().getExtras().get("team");
         
         // Récupération des 2 équipes
         playersTeam1 = new ArrayList<Player>(Arrays.asList(match.getTeam1().getPlayers()));
@@ -81,12 +86,12 @@ public class TimeKeepingActivity extends Activity  {
     	btnGoalTeam1 = (Button) findViewById(R.id.btnGoalTeam1);
     	btn2MinTeam1 = (Button) findViewById(R.id.btn2MinTeam1);
     	btnPenaltyTeam1 = (Button) findViewById(R.id.btnPenaltyTeam1);
+    	btnCardTeam1 = (Button) findViewById(R.id.btnCardTeam1);
     	btnGoalTeam2 = (Button) findViewById(R.id.btnGoalTeam2);
     	btn2MinTeam2 = (Button) findViewById(R.id.btn2MinTeam2);
     	btnPlayPause = (Button) findViewById(R.id.btnPlayPause);
     	btnPenaltyTeam2 = (Button) findViewById(R.id.btnPenaltyTeam2);
-    	
-    	Button btnCorrection = (Button) findViewById(R.id.btnCorrection);
+    	btnCardTeam2 = (Button) findViewById(R.id.btnCardTeam2);
     	
     	// Définition des affichage texte
     	lblScore = (TextView) findViewById(R.id.lblScore);
@@ -112,28 +117,10 @@ public class TimeKeepingActivity extends Activity  {
 		
 		// Ajout du timer a la liste des timers
 		timers.add(mainTimer);
-		                
-		
-		btnCorrection.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				String txt = "";
-				
-        		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
-        		adb.setTitle("Feuille du match");
-        		
-        		for(Fact fact : facts)
-        			txt = txt + " " + fact.getType() + " " + fact.getPlayer().getName() + " " + fact.getTime() + " \n";
-        			
-        		adb.setMessage(txt);
-        		adb.setNeutralButton("annuler", null);
-        		adb.show();
-			}
-		});
-		
+				              
+        // --------------------------------------------------------------------------------------------
         // Ecouteur sur le bouton but team 1
+        // --------------------------------------------------------------------------------------------
         btnGoalTeam1.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		        		
@@ -160,7 +147,8 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        		  INTERVAL_DURATION, playersTeam1.get(arg)));
                     }
                 });
         		adb.setNeutralButton("annuler", null);
@@ -168,7 +156,9 @@ public class TimeKeepingActivity extends Activity  {
         	}
         });
         
+        // --------------------------------------------------------------------------------------------
         // Ecouteur sur le bouton 2min team 1
+        // --------------------------------------------------------------------------------------------
         btn2MinTeam1.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		        		
@@ -200,7 +190,8 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam1.notifyDataSetChanged();
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        		  INTERVAL_DURATION, playersTeam1.get(arg)));
 
                         // Création du timer pour les 2min
                         CountDownTimerPausable timer = new CountDownTimerPausable(DURATION_2MIN ,INTERVAL_DURATION ) {
@@ -241,14 +232,16 @@ public class TimeKeepingActivity extends Activity  {
         	}
         });
        
-     // Ecouteur sur le bouton Penalty team 1
+        // --------------------------------------------------------------------------------------------
+        // Ecouteur sur le bouton Penalty team 1
+        // --------------------------------------------------------------------------------------------
         btnPenaltyTeam1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				
 				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("Penalty pour l'equipe 1");
 
-        		Player[] playersArray = playersTeam2.toArray(new Player[0]);
+        		Player[] playersArray = playersTeam1.toArray(new Player[0]);
         		String[] playersNames = new String[playersArray.length];
         		for (int i = 0; i < playersNames.length; i++) {
         			playersNames[i] = playersArray[i].getName();
@@ -268,7 +261,8 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        		  INTERVAL_DURATION, playersTeam1.get(arg)));
                     }
                 });
         		
@@ -277,7 +271,72 @@ public class TimeKeepingActivity extends Activity  {
 			}
 		});
         
+        // --------------------------------------------------------------------------------------------
+        // Ecouteur sur le bouton carton team 1
+        // --------------------------------------------------------------------------------------------
+        btnCardTeam1.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+										
+				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
+				
+				adb.setTitle("Carton pour l'equipe 1");
+
+        		Player[] playersArray = playersTeam1.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
+        		
+        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, final int arg) {
+                    	
+                    	// custom dialog
+        				final Dialog dialog = new Dialog(TimeKeepingActivity.this);
+        				dialog.setContentView(R.layout.choose_card);
+
+        				dialog.setTitle("Carton pour l'equipe 1");
+
+        				// Récupération des 2 boutons
+            			Button btnYellowCard = (Button) dialog.findViewById(R.id.btnYellowCard);
+            			Button btnRedCard = (Button) dialog.findViewById(R.id.btnRedCard);
+            			
+            			// Pour un carton jaune
+            			btnYellowCard.setOnClickListener(new View.OnClickListener() {
+            				@Override
+            				public void onClick(View v) {
+            					// Ajout dans la liste des faits match
+                                facts.add(new Fact(TypeFact.YELLOW_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                		  INTERVAL_DURATION, playersTeam1.get(arg)));
+                                dialog.dismiss();
+            				}
+            			});
+            			
+            			// Pour un carton rouge
+            			btnRedCard.setOnClickListener(new View.OnClickListener() {
+            				@Override
+            				public void onClick(View v) {
+            					// Ajout dans la liste des faits match
+                                facts.add(new Fact(TypeFact.RED_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                		  INTERVAL_DURATION, playersTeam1.get(arg)));
+                                dialog.dismiss();
+            				}
+            			});
+             
+            			dialog.show();
+            		  } 
+                });
+        		
+        		adb.setNeutralButton("annuler", null);
+        		adb.show();
+			}
+		});
+        
+        // --------------------------------------------------------------------------------------------
         // Ecouteur sur le bouton but team 1
+        // --------------------------------------------------------------------------------------------
         btnGoalTeam2.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		        		
@@ -304,7 +363,8 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
+                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        		  INTERVAL_DURATION, playersTeam2.get(arg)));
 
                     }
                 });
@@ -314,7 +374,9 @@ public class TimeKeepingActivity extends Activity  {
         	}
         });
         
+        // --------------------------------------------------------------------------------------------
         // Ecouteur sur le bouton 2min team 2
+        // --------------------------------------------------------------------------------------------
         btn2MinTeam2.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		        		
@@ -346,7 +408,8 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam2.notifyDataSetChanged();
                    
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        				   INTERVAL_DURATION, playersTeam1.get(arg)));
                     
                         // Création du timer pour les 2min
 	                    CountDownTimerPausable timer = new CountDownTimerPausable(DURATION_2MIN ,INTERVAL_DURATION ) {
@@ -386,7 +449,9 @@ public class TimeKeepingActivity extends Activity  {
         	}
         });
                 
+        // --------------------------------------------------------------------------------------------
         // Ecouteur sur le bouton Penalty team 2
+        // --------------------------------------------------------------------------------------------
         btnPenaltyTeam2.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				
@@ -413,8 +478,72 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
+                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        		           INTERVAL_DURATION, playersTeam2.get(arg)));
                     }
+                });
+        		
+        		adb.setNeutralButton("annuler", null);
+        		adb.show();
+			}
+		});
+        
+        // --------------------------------------------------------------------------------------------
+        // Ecouteur sur le bouton carton team 2
+        // --------------------------------------------------------------------------------------------
+        btnCardTeam2.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+										
+				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
+				
+				adb.setTitle("Carton pour l'equipe 2");
+
+        		Player[] playersArray = playersTeam2.toArray(new Player[0]);
+        		String[] playersNames = new String[playersArray.length];
+        		for (int i = 0; i < playersNames.length; i++) {
+        			playersNames[i] = playersArray[i].getName();
+        		}
+        		
+        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		adb.setItems(playersNames, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, final int arg) {
+                    	
+                    	// custom dialog
+        				final Dialog dialog = new Dialog(TimeKeepingActivity.this);
+        				dialog.setContentView(R.layout.choose_card);
+
+        				dialog.setTitle("Carton pour l'equipe 2");
+
+        				// Récupération des 2 boutons
+            			Button btnYellowCard = (Button) dialog.findViewById(R.id.btnYellowCard);
+            			Button btnRedCard = (Button) dialog.findViewById(R.id.btnRedCard);
+            			
+            			// Pour un carton jaune
+            			btnYellowCard.setOnClickListener(new View.OnClickListener() {
+            				@Override
+            				public void onClick(View v) {
+            					// Ajout dans la liste des faits match
+                                facts.add(new Fact(TypeFact.YELLOW_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                		  INTERVAL_DURATION, playersTeam2.get(arg)));
+                                dialog.dismiss();
+            				}
+            			});
+            			
+            			// Pour un carton rouge
+            			btnRedCard.setOnClickListener(new View.OnClickListener() {
+            				@Override
+            				public void onClick(View v) {
+            					// Ajout dans la liste des faits match
+                                facts.add(new Fact(TypeFact.RED_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                		  INTERVAL_DURATION, playersTeam2.get(arg)));
+                                dialog.dismiss();
+            				}
+            			});
+             
+            			dialog.show();
+            		  } 
                 });
         		
         		adb.setNeutralButton("annuler", null);
@@ -431,7 +560,8 @@ public class TimeKeepingActivity extends Activity  {
         				timer.start();
         		}
         		else{
-        			lblTps.setText("Pause\n"+timers.get(0).millisRemaining / INTERVAL_DURATION  / 60 +"."+timers.get(0).millisRemaining / INTERVAL_DURATION % 60);
+        			lblTps.setText("Pause\n"+timers.get(0).millisRemaining / INTERVAL_DURATION  / 60 +"."
+        						   +timers.get(0).millisRemaining / INTERVAL_DURATION % 60);
         			for(CountDownTimerPausable timer : timers)
         				timer.pause();
         		}
@@ -458,7 +588,15 @@ public class TimeKeepingActivity extends Activity  {
     }
     
 	private void terminate(){
-		Intent intent = new Intent(this,LoginActivity.class);
+				
+		match.setFacts(facts);
+		
+		match.writeToStorage(TimeKeepingActivity.this);
+		
+		Intent intent = new Intent(TimeKeepingActivity.this,
+				MatchDetailsActivity.class);
+		intent.putExtra("match", match);
+		intent.putExtra("team", currentTeam);
 		startActivity(intent);
 	}
 	
@@ -515,4 +653,5 @@ public class TimeKeepingActivity extends Activity  {
         
         list2MinTeam2.setAdapter(adapter2MinTeam2);
     }
+
 }

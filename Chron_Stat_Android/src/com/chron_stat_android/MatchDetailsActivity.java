@@ -61,6 +61,7 @@ public class MatchDetailsActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(),
 						TimeKeepingActivity.class);
 				intent.putExtra("match", match);
+				intent.putExtra("team", currentTeam);
 				startActivity(intent);
 			}
 		});

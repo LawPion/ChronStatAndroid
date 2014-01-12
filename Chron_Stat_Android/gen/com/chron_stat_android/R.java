@@ -35,11 +35,11 @@ public final class R {
         public static final int login_border=0x7f020002;
     }
     public static final class id {
-        public static final int action_add=0x7f09003f;
-        public static final int action_forgot_password=0x7f090040;
-        public static final int action_settings=0x7f09003d;
-        public static final int action_terminate=0x7f090041;
-        public static final int action_timekeeping=0x7f09003e;
+        public static final int action_add=0x7f090041;
+        public static final int action_forgot_password=0x7f090042;
+        public static final int action_settings=0x7f09003f;
+        public static final int action_terminate=0x7f090043;
+        public static final int action_timekeeping=0x7f090040;
         public static final int btn2MinTeam1=0x7f090024;
         public static final int btn2MinTeam2=0x7f09002a;
         public static final int btnCardTeam1=0x7f090023;
@@ -50,29 +50,31 @@ public final class R {
         public static final int btnPenaltyTeam1=0x7f090022;
         public static final int btnPenaltyTeam2=0x7f090028;
         public static final int btnPlayPause=0x7f090025;
-        public static final int button_add=0x7f09002e;
-        public static final int button_delete=0x7f090031;
-        public static final int button_edit=0x7f090030;
+        public static final int btnRedCard=0x7f09002c;
+        public static final int btnYellowCard=0x7f09002b;
+        public static final int button_add=0x7f090030;
+        public static final int button_delete=0x7f090033;
+        public static final int button_edit=0x7f090032;
         public static final int button_sendLogin=0x7f090008;
         public static final int delete_button=0x7f090013;
         public static final int detail_main_layout=0x7f09000a;
-        public static final int editText_email=0x7f09002d;
-        public static final int editText_name=0x7f09002c;
+        public static final int editText_email=0x7f09002f;
+        public static final int editText_name=0x7f09002e;
         public static final int editText_password=0x7f090007;
         public static final int editText_username=0x7f090006;
         public static final int email=0x7f090017;
-        public static final int empty_list=0x7f090039;
+        public static final int empty_list=0x7f09003b;
         public static final int fragment_add=0x7f090000;
         public static final int fragment_edit=0x7f090002;
         public static final int fragment_matchesList=0x7f090001;
         public static final int fragment_teamList=0x7f090016;
-        public static final int item2MinResume=0x7f090038;
-        public static final int itemButResume=0x7f090037;
-        public static final int itemName2Min=0x7f090033;
-        public static final int itemNameResume=0x7f090036;
-        public static final int itemNum2Min=0x7f090032;
-        public static final int itemNumResume=0x7f090035;
-        public static final int itemTps2Min=0x7f090034;
+        public static final int item2MinResume=0x7f09003a;
+        public static final int itemButResume=0x7f090039;
+        public static final int itemName2Min=0x7f090035;
+        public static final int itemNameResume=0x7f090038;
+        public static final int itemNum2Min=0x7f090034;
+        public static final int itemNumResume=0x7f090037;
+        public static final int itemTps2Min=0x7f090036;
         public static final int launch_button=0x7f090015;
         public static final int lblScore=0x7f09001d;
         public static final int lblTps=0x7f09001e;
@@ -96,11 +98,11 @@ public final class R {
         public static final int password=0x7f090018;
         public static final int send_button=0x7f090014;
         public static final int sign_in_button=0x7f09001a;
-        public static final int textView_addTitle=0x7f09002b;
-        public static final int textView_editTitle=0x7f09002f;
-        public static final int textView_matchItem=0x7f09003a;
-        public static final int textView_teamItem=0x7f09003b;
-        public static final int textView_userItem=0x7f09003c;
+        public static final int textView_addTitle=0x7f09002d;
+        public static final int textView_editTitle=0x7f090031;
+        public static final int textView_matchItem=0x7f09003c;
+        public static final int textView_teamItem=0x7f09003d;
+        public static final int textView_userItem=0x7f09003e;
     }
     public static final class layout {
         public static final int activity_add=0x7f030000;
@@ -113,14 +115,15 @@ public final class R {
         public static final int activity_team_list=0x7f030007;
         public static final int activity_test_login=0x7f030008;
         public static final int activity_time_keeping=0x7f030009;
-        public static final int fragment_add=0x7f03000a;
-        public static final int fragment_edit=0x7f03000b;
-        public static final int item_2min=0x7f03000c;
-        public static final int item_resume=0x7f03000d;
-        public static final int list_empty=0x7f03000e;
-        public static final int list_item_match=0x7f03000f;
-        public static final int list_item_team=0x7f030010;
-        public static final int list_item_user=0x7f030011;
+        public static final int choose_card=0x7f03000a;
+        public static final int fragment_add=0x7f03000b;
+        public static final int fragment_edit=0x7f03000c;
+        public static final int item_2min=0x7f03000d;
+        public static final int item_resume=0x7f03000e;
+        public static final int list_empty=0x7f03000f;
+        public static final int list_item_match=0x7f030010;
+        public static final int list_item_team=0x7f030011;
+        public static final int list_item_user=0x7f030012;
     }
     public static final class menu {
         public static final int login=0x7f080000;
@@ -134,10 +137,10 @@ public final class R {
     public static final class string {
         public static final int JSON_EXT=0x7f06000f;
         public static final int SERVER_URL=0x7f06000e;
-        public static final int action_forgot_password=0x7f060035;
+        public static final int action_forgot_password=0x7f060037;
         public static final int action_settings=0x7f060001;
-        public static final int action_sign_in_register=0x7f060033;
-        public static final int action_sign_in_short=0x7f060034;
+        public static final int action_sign_in_register=0x7f060035;
+        public static final int action_sign_in_short=0x7f060036;
         /**  Affichage time keeping 
          */
         public static final int action_terminate=0x7f060012;
@@ -159,15 +162,15 @@ public final class R {
         public static final int edit_button=0x7f060008;
         public static final int edit_title=0x7f060007;
         public static final int empty_list=0x7f060023;
-        public static final int error_field_required=0x7f06003a;
-        public static final int error_incorrect_password=0x7f060039;
-        public static final int error_invalid_email=0x7f060037;
-        public static final int error_invalid_password=0x7f060038;
+        public static final int error_field_required=0x7f06003c;
+        public static final int error_incorrect_password=0x7f06003b;
+        public static final int error_invalid_email=0x7f060039;
+        public static final int error_invalid_password=0x7f06003a;
         public static final int goal=0x7f060015;
         public static final int gym=0x7f06002c;
         public static final int hello_world=0x7f060002;
         public static final int launch_button=0x7f06002f;
-        public static final int login_progress_signing_in=0x7f060036;
+        public static final int login_progress_signing_in=0x7f060038;
         public static final int login_title=0x7f060003;
         public static final int matchNotStarted=0x7f06001f;
         public static final int name=0x7f060014;
@@ -179,8 +182,9 @@ public final class R {
         public static final int playPause=0x7f06001d;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f060031;
-        public static final int prompt_password=0x7f060032;
+        public static final int prompt_email=0x7f060033;
+        public static final int prompt_password=0x7f060034;
+        public static final int red_card=0x7f060031;
         public static final int resumeTeam1=0x7f06001a;
         public static final int resumeTeam2=0x7f06001b;
         public static final int send_button=0x7f06002e;
@@ -192,9 +196,10 @@ public final class R {
         public static final int title_activity_match_details=0x7f060021;
         public static final int title_activity_matches_list=0x7f060011;
         public static final int title_activity_team_list=0x7f06000d;
-        public static final int title_activity_test_login=0x7f060030;
+        public static final int title_activity_test_login=0x7f060032;
         public static final int tps=0x7f060017;
         public static final int username=0x7f060004;
+        public static final int yellow_card=0x7f060030;
     }
     public static final class style {
         /** 
