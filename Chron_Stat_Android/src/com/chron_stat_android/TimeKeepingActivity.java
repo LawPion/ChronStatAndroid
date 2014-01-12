@@ -40,7 +40,7 @@ public class TimeKeepingActivity extends Activity  {
 	private Button btnGoalTeam1, btn2MinTeam1, btnGoalTeam2, btn2MinTeam2, btnPenaltyTeam1, btnPenaltyTeam2, btnPlayPause;
 	private TextView lblScore, lblTps;
 	
-	// Liste des informations définit dans les listView
+	// Liste des informations dï¿½finit dans les listView
 	ArrayList<HashMap<String, String>> listItemResumeTeam1 = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String, String>> listItemResumeTeam2 = new ArrayList<HashMap<String,String>>();
     ArrayList<HashMap<String, String>> listItem2MinTeam1 = new ArrayList<HashMap<String,String>>();
@@ -64,20 +64,20 @@ public class TimeKeepingActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_keeping);
         
-        // Récupération du match
+        // Rï¿½cupï¿½ration du match
         match = (Match)getIntent().getExtras().get("match");
         
-        // Récupération des 2 équipes
+        // Rï¿½cupï¿½ration des 2 ï¿½quipes
         playersTeam1 = new ArrayList<Player>(Arrays.asList(match.getTeam1().getPlayers()));
         playersTeam2 = new ArrayList<Player>(Arrays.asList(match.getTeam2().getPlayers()));
         
-        // Définition des listView
+        // Dï¿½finition des listView
     	listResumeTeam1 = (ListView) findViewById(R.id.listResumeTeam1);
     	listResumeTeam2 = (ListView) findViewById(R.id.listResumeTeam2);
     	list2MinTeam1 = (ListView) findViewById(R.id.list2MinTeam1);
     	list2MinTeam2 = (ListView) findViewById(R.id.list2MinTeam2);
     	
-    	// Définition des boutons
+    	// Dï¿½finition des boutons
     	btnGoalTeam1 = (Button) findViewById(R.id.btnGoalTeam1);
     	btn2MinTeam1 = (Button) findViewById(R.id.btn2MinTeam1);
     	btnPenaltyTeam1 = (Button) findViewById(R.id.btnPenaltyTeam1);
@@ -88,7 +88,7 @@ public class TimeKeepingActivity extends Activity  {
     	
     	Button btnCorrection = (Button) findViewById(R.id.btnCorrection);
     	
-    	// Définition des affichage texte
+    	// Dï¿½finition des affichage texte
     	lblScore = (TextView) findViewById(R.id.lblScore);
     	lblTps = (TextView) findViewById(R.id.lblTps);
                 
@@ -96,7 +96,7 @@ public class TimeKeepingActivity extends Activity  {
         initListView();
         lblScore.setText(scoreTeam1 + " - " + scoreTeam2);
         
-        // Défintion du timer principal du match
+        // Dï¿½fintion du timer principal du match
         mainTimer = new CountDownTimerPausable(DURATION_MATCH,INTERVAL_DURATION ) {
 			
 			@Override
@@ -106,7 +106,7 @@ public class TimeKeepingActivity extends Activity  {
 			
 			@Override
 			public void onFinish() {
-				lblTps.setText("Match terminé");
+				lblTps.setText("Match terminÃ©");
 			}
 		};
 		
@@ -140,13 +140,13 @@ public class TimeKeepingActivity extends Activity  {
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("But pour l'equipe 1");
         		        		
-        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		//on insï¿½re un message ï¿½ notre boite de dialogue, et ici on affiche le titre de l'item cliquï¿½
         		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
                     	
-                    	// Ajout du but dans la liste résumée de l'équipe
+                    	// Ajout du but dans la liste rï¿½sumï¿½e de l'ï¿½quipe
                     	playersTeam1.get(arg).AddGoal();
                     	listItemResumeTeam1.get(arg).put("But", ""+(playersTeam1.get(arg).getNbrGoal()));
                         adapterResumeTeam1.notifyDataSetChanged();
@@ -155,7 +155,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
                     }
                 });
         		adb.setNeutralButton("annuler", null);
@@ -170,18 +170,18 @@ public class TimeKeepingActivity extends Activity  {
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("2min pour l'equipe 1");
         		        		
-        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		//on insï¿½re un message ï¿½ notre boite de dialogue, et ici on affiche le titre de l'item cliquï¿½
         		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
                     	
-                    	// Ajout des 2min dans la liste résumée de l'équipe
+                    	// Ajout des 2min dans la liste rï¿½sumï¿½e de l'ï¿½quipe
                     	playersTeam1.get(arg).Add2Min();
                     	listItemResumeTeam1.get(arg).put("DeuxMin", ""+playersTeam1.get(arg).getNbr2Min());
                         adapterResumeTeam1.notifyDataSetChanged();
                         
-                        // Ajout d'un nouvelle entrée dans la liste des 2min en cours
+                        // Ajout d'un nouvelle entrï¿½e dans la liste des 2min en cours
                         map = new HashMap<String, String>();
                         map.put("Numero", ""+playersTeam1.get(arg).getNoDossard());
                         map.put("Nom", ""+playersTeam1.get(arg).getName());
@@ -190,9 +190,9 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam1.notifyDataSetChanged();
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
 
-                        // Création du timer pour les 2min
+                        // Crï¿½ation du timer pour les 2min
                         CountDownTimerPausable timer = new CountDownTimerPausable(DURATION_2MIN ,INTERVAL_DURATION ) {
                         	
                         	HashMap<String, String> temp = map;
@@ -238,13 +238,13 @@ public class TimeKeepingActivity extends Activity  {
 				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("Penalty pour l'equipe 1");
         		        		
-        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		//on insï¿½re un message ï¿½ notre boite de dialogue, et ici on affiche le titre de l'item cliquï¿½
         		adb.setItems(playersTeam1.toArray(new String[playersTeam1.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
                     	
-                    	// Ajout du but dans la liste résumée de l'équipe
+                    	// Ajout du but dans la liste rï¿½sumï¿½e de l'ï¿½quipe
                     	playersTeam1.get(arg).AddGoal();
                     	listItemResumeTeam1.get(arg).put("But", ""+playersTeam1.get(arg).getNbrGoal());
                         adapterResumeTeam1.notifyDataSetChanged();
@@ -253,7 +253,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
                     }
                 });
         		
@@ -269,13 +269,13 @@ public class TimeKeepingActivity extends Activity  {
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("But pour l'equipe 2");
         		        		
-        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		//on insï¿½re un message ï¿½ notre boite de dialogue, et ici on affiche le titre de l'item cliquï¿½
         		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
                     	
-                    	// Ajout du but dans la liste résumée de l'équipe
+                    	// Ajout du but dans la liste rï¿½sumï¿½e de l'ï¿½quipe
                     	playersTeam2.get(arg).AddGoal();
                     	listItemResumeTeam2.get(arg).put("But", ""+playersTeam2.get(arg).getNbrGoal());
                         adapterResumeTeam2.notifyDataSetChanged();
@@ -284,7 +284,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
+                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg), playersTeam2.get(arg).getId()));
 
                     }
                 });
@@ -301,18 +301,18 @@ public class TimeKeepingActivity extends Activity  {
         		AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("2min pour l'equipe 2");
         		        		
-        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		//on insï¿½re un message ï¿½ notre boite de dialogue, et ici on affiche le titre de l'item cliquï¿½
         		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
                     	
-                    	// Ajout des 2min dans la liste résumée de l'équipe
+                    	// Ajout des 2min dans la liste rï¿½sumï¿½e de l'ï¿½quipe
                     	playersTeam2.get(arg).Add2Min();
                     	listItemResumeTeam2.get(arg).put("DeuxMin", ""+playersTeam2.get(arg).getNbr2Min());
                         adapterResumeTeam2.notifyDataSetChanged();
                         
-                        // Ajout d'un nouvelle entrée dans la liste des 2min en cours
+                        // Ajout d'un nouvelle entrï¿½e dans la liste des 2min en cours
                         map = new HashMap<String, String>();
                         map.put("Numero", ""+playersTeam2.get(arg).getNoDossard());
                         map.put("Nom", ""+playersTeam2.get(arg).getName());
@@ -321,9 +321,9 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam2.notifyDataSetChanged();
                    
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg)));
+                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam1.get(arg), playersTeam2.get(arg).getId()));
                     
-                        // Création du timer pour les 2min
+                        // Crï¿½ation du timer pour les 2min
 	                    CountDownTimerPausable timer = new CountDownTimerPausable(DURATION_2MIN ,INTERVAL_DURATION ) {
 	                    	
 	                    	HashMap<String, String> temp = map;
@@ -368,13 +368,13 @@ public class TimeKeepingActivity extends Activity  {
 				AlertDialog.Builder adb = new AlertDialog.Builder(TimeKeepingActivity.this);
         		adb.setTitle("Penalty pour l'equipe 2");
         		        		
-        		//on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        		//on insï¿½re un message ï¿½ notre boite de dialogue, et ici on affiche le titre de l'item cliquï¿½
         		adb.setItems(playersTeam2.toArray(new String[playersTeam2.size()] ), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int arg) {
                     	
-                    	// Ajout du but dans la liste résumée de l'équipe
+                    	// Ajout du but dans la liste rï¿½sumï¿½e de l'ï¿½quipe
                     	playersTeam2.get(arg).AddGoal();
                     	listItemResumeTeam2.get(arg).put("But", ""+playersTeam2.get(arg).getNbrGoal());
                         adapterResumeTeam2.notifyDataSetChanged();
@@ -383,7 +383,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg)));
+                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / INTERVAL_DURATION, playersTeam2.get(arg),playersTeam2.get(arg).getId()));
                     }
                 });
         		

@@ -121,11 +121,20 @@ public class AddMatchFragment extends ListFragment implements
 		if (!hasDependencies) {
 			matches = gson.fromJson(jsons[0], Match[].class);
 			Log.d("DEBUG - add", "downloading dependencies: "+matches.length);
+			
+			ArrayList<Match> filteredMatches = new ArrayList<Match>();
+			// getting only matches for the current team
+			for (int i = 0; i < matches.length; i++) {
+				if (matches[i].getTeam_id1_id() == currentTeam.getId()) {
+					filteredMatches.add(matches[i]);
+				}
+			}
+			matches = filteredMatches.toArray(new Match[0]);
+			
 			getDependencies(matches);
 			hasDependencies = true;
 		} else {
 			Match match = gson.fromJson(jsons[0], Match.class);
-			Log.d("DEBUG - add", "bla gotten: "+match.getChampionship_id());
 			match.setTeam1(gson.fromJson(jsons[1], Team.class));
 			match.setTeam2(gson.fromJson(jsons[2], Team.class));
 			match.getTeam1()
@@ -136,7 +145,6 @@ public class AddMatchFragment extends ListFragment implements
 			match.setGym(gson.fromJson(jsons[6], Gym.class));
 			matches[dependencyCounter] = match;
 			dependencyCounter++;
-			Log.d("DEBUG - add", "number of dependencies gotten: "+dependencyCounter);
 		}
 
 		if (dependencyCounter == matches.length) {
