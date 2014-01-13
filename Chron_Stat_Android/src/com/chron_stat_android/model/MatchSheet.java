@@ -4,6 +4,7 @@ public class MatchSheet {
 	private int homeScore;
 	private int awayScore;
 	private Fact[] facts;
+	private int id;
 	
 	public MatchSheet() {
 		super();
@@ -13,6 +14,7 @@ public class MatchSheet {
 		this.homeScore = match.getHomeScore();
 		this.awayScore = match.getAwayScore();
 		this.facts = match.getFacts();
+		this.id = match.getId();
 	}
 
 	public int getHomeScore() {
@@ -37,5 +39,13 @@ public class MatchSheet {
 
 	public void setFacts(Fact[] facts) {
 		this.facts = facts;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

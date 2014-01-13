@@ -146,7 +146,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        facts.add(new Fact(TypeFact.Goal, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                         		  INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
                     }
                 });
@@ -189,7 +189,7 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam1.notifyDataSetChanged();
                         
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        facts.add(new Fact(TypeFact.Foul, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                         		  INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
 
                         // Cr�ation du timer pour les 2min
@@ -260,7 +260,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(++scoreTeam1 + " - " + scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        facts.add(new Fact(TypeFact.Penalty, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                         		  INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
                     }
                 });
@@ -307,7 +307,7 @@ public class TimeKeepingActivity extends Activity  {
             				@Override
             				public void onClick(View v) {
             					// Ajout dans la liste des faits match
-                                facts.add(new Fact(TypeFact.YELLOW_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                facts.add(new Fact(TypeFact.YellowCard, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                                 		  INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
                                 dialog.dismiss();
             				}
@@ -318,7 +318,7 @@ public class TimeKeepingActivity extends Activity  {
             				@Override
             				public void onClick(View v) {
             					// Ajout dans la liste des faits match
-                                facts.add(new Fact(TypeFact.RED_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                facts.add(new Fact(TypeFact.RedCard, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                                 		  INTERVAL_DURATION, playersTeam1.get(arg), playersTeam1.get(arg).getId()));
                                 dialog.dismiss();
             				}
@@ -362,7 +362,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.GOAL, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        facts.add(new Fact(TypeFact.Goal, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                         		  INTERVAL_DURATION, playersTeam2.get(arg), playersTeam2.get(arg).getId()));
 
                     }
@@ -407,7 +407,7 @@ public class TimeKeepingActivity extends Activity  {
                         adapter2MinTeam2.notifyDataSetChanged();
                    
                         // Ajout dans la liste ds faits match
-                        facts.add(new Fact(TypeFact.TWO_MIN, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        facts.add(new Fact(TypeFact.Foul, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                         				   INTERVAL_DURATION, playersTeam2.get(arg), playersTeam2.get(arg).getId()));
                     
                         // Cr�ation du timer pour les 2min
@@ -477,7 +477,7 @@ public class TimeKeepingActivity extends Activity  {
                         lblScore.setText(scoreTeam1 + " - " + ++scoreTeam2);
                         
                         // Ajout dans la liste des faits match
-                        facts.add(new Fact(TypeFact.PENALTY, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                        facts.add(new Fact(TypeFact.Penalty, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                         		           INTERVAL_DURATION, playersTeam2.get(arg), playersTeam2.get(arg).getId()));
                     }
                 });
@@ -524,7 +524,7 @@ public class TimeKeepingActivity extends Activity  {
             				@Override
             				public void onClick(View v) {
             					// Ajout dans la liste des faits match
-                                facts.add(new Fact(TypeFact.YELLOW_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                facts.add(new Fact(TypeFact.YellowCard, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                                 		  INTERVAL_DURATION, playersTeam2.get(arg), playersTeam2.get(arg).getId()));
                                 dialog.dismiss();
             				}
@@ -535,7 +535,7 @@ public class TimeKeepingActivity extends Activity  {
             				@Override
             				public void onClick(View v) {
             					// Ajout dans la liste des faits match
-                                facts.add(new Fact(TypeFact.RED_CARD, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
+                                facts.add(new Fact(TypeFact.RedCard, (DURATION_MATCH - (int)mainTimer.millisRemaining) / 
                                 		  INTERVAL_DURATION, playersTeam2.get(arg), playersTeam2.get(arg).getId()));
                                 dialog.dismiss();
             				}
