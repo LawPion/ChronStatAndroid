@@ -6,7 +6,6 @@ import com.chron_stat_android.model.Team;
 import com.chron_stat_android.tasks.*;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MatchDetailsActivity extends Activity implements
+public class MatchDetailsActivity extends MainActivity implements
 		SendJSONTask.CallBackListener {
 	private Match match;
 	private Team currentTeam;
@@ -42,35 +41,40 @@ public class MatchDetailsActivity extends Activity implements
 		((TextView) findViewById(R.id.match_sheet_status))
 				.setText("TODO STATUS");
 
-		((Button)findViewById(R.id.delete_button)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				match.deleteFromStorage(MatchDetailsActivity.this);
-				Intent intent = new Intent(getApplicationContext(),
-						MatchListActivity.class);
-				intent.putExtra("team", currentTeam);
-				startActivity(intent);
-			}
-		});
-		((Button)findViewById(R.id.send_button)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				sendMatch();
-				Intent intent = new Intent(getApplicationContext(),
-						TeamListActivity.class);
-				startActivity(intent);
-			}
-		});
-		((Button)findViewById(R.id.launch_button)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(),
-						TimeKeepingActivity.class);
-				intent.putExtra("match", match);
-				intent.putExtra("team", currentTeam);
-				startActivity(intent);
-			}
-		});
+		((Button) findViewById(R.id.delete_button))
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						match.deleteFromStorage(MatchDetailsActivity.this);
+						Intent intent = new Intent(getApplicationContext(),
+								MatchListActivity.class);
+						intent.putExtra("team", currentTeam);
+						startActivity(intent);
+					}
+				});
+		((Button) findViewById(R.id.send_button))
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						sendMatch();
+						Intent intent = new Intent(getApplicationContext(),
+								TeamListActivity.class);
+						startActivity(intent);
+					}
+				});
+		((Button) findViewById(R.id.launch_button))
+				.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent intent = new Intent(getApplicationContext(),
+								TimeKeepingActivity.class);
+						intent.putExtra("match", match);
+						intent.putExtra("team", currentTeam);
+						startActivity(intent);
+					}
+				});
+
+		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 	}
 
 	@Override
@@ -82,9 +86,10 @@ public class MatchDetailsActivity extends Activity implements
 
 	public void sendMatch() {
 		MatchSheet sheet = new MatchSheet(match);
-		
+
 		// Définition de l'adresse du serveur
-		String url = getString(R.string.SERVER_URL) + "matches/matchsheet/" + match.getId();
+		String url = getString(R.string.SERVER_URL) + "matches/matchsheet/"
+				+ match.getId();
 
 		// Méthode de la requête HTTP à envoyer (selon CRUD: Create = POST)
 		String method = "POST";
@@ -92,7 +97,8 @@ public class MatchDetailsActivity extends Activity implements
 		// Création de la SendJSONTask
 		SendJSONTask task = new SendJSONTask();
 		task.setListener(this);
-		task.execute(new Request(url, method, sheet, MatchSheet.class));
+		task.execute(new Request(preferences.getString("AuthCookie", "false"),
+				url, method, sheet, MatchSheet.class));
 	}
 
 	/****************************************************************************

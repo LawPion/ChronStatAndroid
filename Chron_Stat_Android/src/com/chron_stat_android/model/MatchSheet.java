@@ -3,16 +3,24 @@ package com.chron_stat_android.model;
 public class MatchSheet {
 	private int homeScore;
 	private int awayScore;
-	private Fact[] facts;
-	
+	private ServerFact[] facts;
+	private int id;
+
 	public MatchSheet() {
 		super();
 	}
-	
+
 	public MatchSheet(Match match) {
 		this.homeScore = match.getHomeScore();
 		this.awayScore = match.getAwayScore();
-		this.facts = match.getFacts();
+		Fact[] temp = match.getFacts();
+		if (temp != null) {
+			this.facts = new ServerFact[temp.length];
+			for (int i = 0; i < temp.length; i++) {
+				this.facts[i] = new ServerFact(temp[i]);
+			}
+		}
+		this.id = match.getId();
 	}
 
 	public int getHomeScore() {
@@ -31,11 +39,19 @@ public class MatchSheet {
 		this.awayScore = awayScore;
 	}
 
-	public Fact[] getFacts() {
+	public ServerFact[] getFacts() {
 		return facts;
 	}
 
-	public void setFacts(Fact[] facts) {
+	public void setFacts(ServerFact[] facts) {
 		this.facts = facts;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

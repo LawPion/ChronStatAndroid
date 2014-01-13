@@ -2,11 +2,11 @@ package com.chron_stat_android.model;
 
 public enum TypeFact {
 	
-	GOAL("Goal"), 
-	TWO_MIN("Foul"),
-	YELLOW_CARD("YellowCard"),
-	RED_CARD("RedCard"),
-	PENALTY("Penalty");
+	Goal("Goal"), 
+	Foul("Foul"),
+	YellowCard("YellowCard"),
+	RedCard("RedCard"),
+	Penalty("Penalty");
 	
 	String txtType;
 
