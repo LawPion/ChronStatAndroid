@@ -1,9 +1,31 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".TeamListActivity" >
 
     <!-- list -->
-
+    
+     <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="Liste des equipes"
+          android:textSize="30sp"
+          android:padding="20dp"
+          android:gravity="center"
+          android:textColor="@color/white"
+          android:background="@color/brown"
+          android:textStyle="bold" />
+     
+     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="Sélectionner une equipe pour obtenir les feuilles de matchs"
+        android:textSize="20sp" 
+        android:gravity="left"
+        android:layout_marginTop="75dp"/>
+     
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,7 +33,7 @@
         android:background="@drawable/login_border"
         android:orientation="vertical"
         android:weightSum="3" >
-
+        
         <fragment
             android:id="@+id/fragment_teamList"
             android:layout_width="wrap_content"
@@ -19,5 +41,4 @@
             class="com.chron_stat_android.TeamListFragment"
             tools:layout="@layout/list_item_team" />
     </LinearLayout>
-
 </merge>

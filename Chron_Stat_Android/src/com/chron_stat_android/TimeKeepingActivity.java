@@ -589,7 +589,6 @@ public class TimeKeepingActivity extends Activity  {
 	private void terminate(){
 				
 		match.setFacts(facts);
-		
 		match.writeToStorage(TimeKeepingActivity.this);
 		
 		Intent intent = new Intent(TimeKeepingActivity.this,

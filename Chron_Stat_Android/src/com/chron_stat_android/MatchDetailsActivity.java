@@ -56,6 +56,7 @@ public class MatchDetailsActivity extends Activity implements
 			@Override
 			public void onClick(View view) {
 				sendMatch();
+				match.deleteFromStorage(MatchDetailsActivity.this);
 				Intent intent = new Intent(getApplicationContext(),
 						TeamListActivity.class);
 				startActivity(intent);
