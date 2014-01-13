@@ -82,7 +82,7 @@ public class Request {
 	 * @return Le JSON de l'utilisateur de la requête sous forme de chaîne de
 	 *         caractères.
 	 **************************************************************************/
-	public String getPersonJSON() {
+	public String getTargetJSON() {
 		Gson gson = new Gson();
 		return gson.toJson(target, typeOfTarget);
 	}
