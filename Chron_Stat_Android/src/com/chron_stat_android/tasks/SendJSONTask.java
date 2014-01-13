@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
+import android.util.Log;
 
 /*******************************************************************************
  * SendJSONTask.java
@@ -87,17 +88,20 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 						// Edition d'utilisateur.
 						request = new HttpPut(requests[i].getURI());
 						((HttpPut) request).setEntity(new ByteArrayEntity(
-								requests[i].getPersonJSON().getBytes("UTF-8")));
+								requests[i].getTargetJSON().getBytes("UTF-8")));
+						Log.d("DEBUG - PUT", "PUTing json: "+requests[i].getTargetJSON());
 						editNumber++;
 					} else if (requests[i].getMethod().equals("POST")) {
 						// Ajout d'utilisateur.
 						request = new HttpPost(requests[i].getURI());
 						((HttpPost) request).setEntity(new ByteArrayEntity(
-								requests[i].getPersonJSON().getBytes("UTF-8")));
+								requests[i].getTargetJSON().getBytes("UTF-8")));
+						Log.d("DEBUG - POST", "POSTing json: "+requests[i].getTargetJSON());
 						createNumber++;
 					} else if (requests[i].getMethod().equals("DELETE")) {
 						// Suppression d'utilisateur.
 						request = new HttpDelete(requests[i].getURI());
+						Log.d("DEBUG - DELETE", "DELETEing json: "+requests[i].getURI());
 						deleteNumber++;
 					}
 				} catch (URISyntaxException e) {
