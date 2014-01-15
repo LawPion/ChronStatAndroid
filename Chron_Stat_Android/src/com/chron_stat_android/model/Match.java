@@ -78,9 +78,17 @@ public class Match implements Serializable {
 	public int getChampionship_id() {
 		return championship_id;
 	}
+	
+	public void setHomeScore(int score){
+		this.homeScore = score;
+	}
+	
+	public void setAwayScore(int score){
+		this.awayScore = score;
+	}
 
-	public int setChampionship_id() {
-		return championship_id;
+	public void setChampionship_id(int id) {
+		this.championship_id = id;
 	}
 
 	public Championship getChampionship() {

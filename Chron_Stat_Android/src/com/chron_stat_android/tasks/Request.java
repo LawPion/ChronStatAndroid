@@ -20,6 +20,8 @@ import com.google.gson.Gson;
  * @notes -
  ******************************************************************************/
 public class Request {
+	
+	private String cookie;
 
 	// L'url cible de la requête.
 	private String url;
@@ -49,7 +51,7 @@ public class Request {
 	 *            La classe de la personne cible. Ici, seul User.class est
 	 *            utilisée de par l'absence de polymorphisme.
 	 **************************************************************************/
-	public Request(String url, String method, Object target, Class<?> typeOfTarget) {
+	public Request(String cookie, String url, String method, Object target, Class<?> typeOfTarget) {
 		this.url = url;
 		this.method = method;
 		this.target = target;
@@ -85,5 +87,9 @@ public class Request {
 	public String getTargetJSON() {
 		Gson gson = new Gson();
 		return gson.toJson(target, typeOfTarget);
+	}
+	
+	public String getCookie() {
+		return this.cookie;
 	}
 }

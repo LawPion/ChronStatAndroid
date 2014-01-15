@@ -588,9 +588,15 @@ public class TimeKeepingActivity extends Activity  {
     
 	private void terminate(){
 				
+		// Transmet les données du match 
 		match.setFacts(facts);
+		match.setHomeScore(scoreTeam1);
+		match.setAwayScore(scoreTeam2);
+	
+		// Sauvegarde la feuille de match dans la mémoire
 		match.writeToStorage(TimeKeepingActivity.this);
 		
+		// Retourne à la fiche détaillée du match
 		Intent intent = new Intent(TimeKeepingActivity.this,
 				MatchDetailsActivity.class);
 		intent.putExtra("match", match);

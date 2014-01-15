@@ -109,6 +109,7 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 				}
 				request.addHeader("Accept", "application/json");
 				request.addHeader("Content-Type", "application/json");
+				request.addHeader("Cookie", "remember_token=" + requests[i].getCookie());
 				client.execute(request);
 			} catch (IOException e) {
 				e.printStackTrace();
