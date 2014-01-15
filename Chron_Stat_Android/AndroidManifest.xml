@@ -26,11 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.chron_stat_android.TestLoginActivity"
-            android:label="@string/title_activity_test_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
-        <activity
             android:name="com.chron_stat_android.TeamListFragment"
             android:label="@string/title_activity_team_list" >
         </activity>

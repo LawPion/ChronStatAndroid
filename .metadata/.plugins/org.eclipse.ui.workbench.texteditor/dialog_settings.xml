@@ -3,25 +3,26 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="263" key="DIALOG_WIDTH"/>
 		<item value="109" key="DIALOG_Y_ORIGIN"/>
-		<item value="704" key="DIALOG_X_ORIGIN"/>
 		<item value="399" key="DIALOG_HEIGHT"/>
+		<item value="704" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="true" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="matches" key="selection"/>
+		<item value="Listener" key="selection"/>
 		<list key="findhistory">
+			<item value="Listener"/>
+			<item value="RETRIEVED"/>
+			<item value="team"/>
+			<item value="menu"/>
+			<item value="intent"/>
+			<item value="package com.chron_stat_android.model;"/>
 			<item value="package com.chron_stat_android;"/>
 			<item value="Matchs"/>
-			<item value="matchs"/>
-			<item value="Team"/>
-			<item value="team"/>
-			<item value="user"/>
-			<item value="task"/>
 		</list>
 		<list key="replacehistory">
 			<item value="Matches"/>
