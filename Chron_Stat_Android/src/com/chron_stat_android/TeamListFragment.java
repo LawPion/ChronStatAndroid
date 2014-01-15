@@ -43,7 +43,6 @@ public class TeamListFragment extends ListFragment implements
 		gson = new Gson();
 
 		adapter = new TeamAdapter(getActivity());
-		refreshList();
 	}
 	
 	/***************************************************************************

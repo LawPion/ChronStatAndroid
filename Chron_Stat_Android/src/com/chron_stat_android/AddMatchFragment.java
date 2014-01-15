@@ -424,11 +424,11 @@ public class AddMatchFragment extends ListFragment implements
 				if (currentTeam.getId() == match.getTeam1().getId()) {
 					label = match.getDate().substring(0,
 							match.getDate().indexOf('T'))
-							+ " - " + match.getTeam1().getName();
+							+ " - " + match.getTeam1().getName() + " vs " + match.getTeam2().getName();
 				} else {
 					label = match.getDate().substring(0,
 							match.getDate().indexOf('T'))
-							+ " - " + match.getTeam2().getName();
+							+ " - " + match.getTeam1().getName() + " vs " + match.getTeam2().getName();
 				}
 				((TextView) convertView.findViewById(R.id.textView_matchItem))
 						.setText(label);

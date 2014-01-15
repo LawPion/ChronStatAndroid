@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chron_stat_android.model.Match;
+import com.chron_stat_android.model.Team;
 import com.google.gson.Gson;
 
 public class MatchListFragment extends ListFragment {
@@ -31,6 +32,8 @@ public class MatchListFragment extends ListFragment {
 
 	// Objet Gson simplifiant la manipulation de chaînes JSON
 	private static Gson gson;
+
+	private Team currentTeam;
 
 	/***************************************************************************
 	 * A la création du fragment on crée un objet Gson et le nouvel adapteur de
@@ -51,6 +54,7 @@ public class MatchListFragment extends ListFragment {
 	 * Rafraichit la liste en téléchargeant un nouveau JSON depuis le serveur.
 	 **************************************************************************/
 	public void refreshList() {
+		currentTeam = ((MatchListActivity) getActivity()).getTeam();
 		Context context = getActivity();
 		ArrayList<Match> matches = new ArrayList<Match>();
 
@@ -60,9 +64,11 @@ public class MatchListFragment extends ListFragment {
 		String line;
 
 		for (int i = 0; i < fileList.length; i++) {
-			Log.d("DEBUG - json", "testing file "+fileList[i]);
-			if (fileList[i].startsWith("match_")) {
-				Log.d("DEBUG - json", "formating file "+fileList[i]);
+			Log.d("DEBUG - json", "testing file " + fileList[i]);
+			if (fileList[i].startsWith("match_")
+					&& fileList[i].endsWith(getActivity().getString(
+							R.string.JSON_EXT))) {
+				Log.d("DEBUG - json", "formating file " + fileList[i]);
 				buffer = new StringBuffer();
 
 				FileInputStream fis;
@@ -81,9 +87,15 @@ public class MatchListFragment extends ListFragment {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				Log.d("DEBUG - json", "file content "+buffer.toString());
-				
-				matches.add(gson.fromJson(buffer.toString(), Match.class));
+				Log.d("DEBUG - json", "file content " + buffer.toString());
+
+				// add match to list only if the current Team is involved
+				Match match = gson.fromJson(buffer.toString(), Match.class);
+				Log.d("DEBUG - NULL", "match"+(match == null));
+				Log.d("DEBUG - NULL", "team"+(currentTeam == null));
+				if (match.getTeam_id1_id() == currentTeam.getId()
+						|| match.getTeam_id2_id() == currentTeam.getId())
+					matches.add(match);
 			}
 		}
 

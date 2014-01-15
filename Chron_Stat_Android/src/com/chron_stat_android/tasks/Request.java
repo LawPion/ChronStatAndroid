@@ -52,6 +52,7 @@ public class Request {
 	 *            utilisée de par l'absence de polymorphisme.
 	 **************************************************************************/
 	public Request(String cookie, String url, String method, Object target, Class<?> typeOfTarget) {
+		this.cookie = cookie;
 		this.url = url;
 		this.method = method;
 		this.target = target;

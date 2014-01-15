@@ -21,10 +21,6 @@ public class MatchListActivity extends MainActivity implements
 		MatchListFragment plf = (MatchListFragment) getFragmentManager()
 				.findFragmentById(R.id.fragment_matchesList);
 		plf.setListener(this);
-
-		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
-
-		currentTeam = (Team) getIntent().getExtras().getSerializable("team");
 	}
 
 	@Override
@@ -43,8 +39,6 @@ public class MatchListActivity extends MainActivity implements
 		switch (item.getItemId()) {
 		case R.id.action_add:
 			addAction();
-			return true;
-		case R.id.action_settings:
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -85,6 +79,11 @@ public class MatchListActivity extends MainActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+
+		currentTeam = (Team) getIntent().getExtras().getSerializable("team");
+		
 		refreshList();
 	}
 

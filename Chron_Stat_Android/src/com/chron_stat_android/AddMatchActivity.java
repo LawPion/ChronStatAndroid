@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class AddMatchActivity extends MainActivity implements
 		AddMatchFragment.OnItemClickListener {
@@ -35,6 +36,18 @@ public class AddMatchActivity extends MainActivity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	/***************************************************************************
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 **************************************************************************/
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	/***************************************************************************

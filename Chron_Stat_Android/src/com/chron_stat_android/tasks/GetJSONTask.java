@@ -79,6 +79,8 @@ public class GetJSONTask extends AsyncTask<String, Void, String[]> {
 	protected String[] doInBackground(String... params) {
 		String[] jsons = new String[params.length - 1];
 
+		// Si le cookie n'existe pas dans les préférences, il sera remplacé par
+		// la valeur par défaut "false", on gère donc ce cas.
 		if (params[0].equals("false")) {
 			jsons[0] = "[{\"name\":\"No Entry\"}]";
 			Log.d("RETRIEVED JSON", jsons[0]);
@@ -93,6 +95,7 @@ public class GetJSONTask extends AsyncTask<String, Void, String[]> {
 
 			try {
 				httpget.setHeader("Cookie", "remember_token=" + params[0]);
+				Log.d("DEBUG - Cookie GET", "remember_token=" + params[0]);
 				HttpResponse HTTPResponse = client.execute(httpget);
 				HttpEntity entity = HTTPResponse.getEntity();
 				InputStream is = entity.getContent();

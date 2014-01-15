@@ -21,7 +21,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +33,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -57,6 +60,9 @@ public class LoginActivity extends Activity {
 	private SharedPreferences preferences;
 	private String username;
 	private String password;
+	private View loginStatusView;
+	private View loginFormView;
+	private LoginTask loginTask;
 
 	/***************************************************************************
 	 * Ajoute un OnClickListener sur le bouton d'envoi du clavier afin de gérer
@@ -73,6 +79,17 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+		
+		if (preferences.contains("AuthCookie")) {
+			// launch the HomeActivity and close this one
+			Intent intent = new Intent(getApplicationContext(),
+					TeamListActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		
+		loginStatusView = findViewById(R.id.login_status);
+		loginFormView = findViewById(R.id.login_form);
 
 		// Enregistre l'action listener pour le bouton d'envoi du clavier
 		EditText editText = (EditText) findViewById(R.id.editText_password);
@@ -105,23 +122,6 @@ public class LoginActivity extends Activity {
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
-
-	/***************************************************************************
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 **************************************************************************/
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-		case R.id.action_timekeeping:
-			timeKeep();
-			return true;
-		case R.id.action_settings:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 	
 	/***************************************************************************
 	 * Gère l'envoi de l'authentification au serveur
@@ -142,8 +142,50 @@ public class LoginActivity extends Activity {
 					Toast.LENGTH_LONG).show();
 			return;
 		} else {
-			LoginTask loginTask = new LoginTask(LoginActivity.this);
+			loginTask = new LoginTask(LoginActivity.this);
 			loginTask.execute(LOGIN_API_ENDPOINT_URL);
+			showProgress(true);
+		}
+	}
+
+	/**
+	 * Shows the progress UI and hides the login form.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(
+					android.R.integer.config_shortAnimTime);
+
+			loginStatusView.setVisibility(View.VISIBLE);
+			loginStatusView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 1 : 0)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							loginStatusView.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			loginFormView.setVisibility(View.VISIBLE);
+			loginFormView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 0 : 1)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							loginFormView.setVisibility(show ? View.GONE
+									: View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			loginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -214,6 +256,8 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
+			loginTask = null;
+			showProgress(false);
 			try {
 				if (!result.equals("false") && result != null) {
 					// everything is ok
@@ -242,6 +286,12 @@ public class LoginActivity extends Activity {
 			} finally {
 				super.onPostExecute(result);
 			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			loginTask = null;
+			showProgress(false);
 		}
 
 		protected JSONObject queryUrlForJson(String url) {
@@ -302,11 +352,5 @@ public class LoginActivity extends Activity {
 			}
 			return jsonString;
 		}
-	}
-	
-	public void timeKeep() {
-		Intent intent = new Intent(getApplicationContext(),
-				TimeKeepingActivity.class);
-		startActivity(intent);
 	}
 }

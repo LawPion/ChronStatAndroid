@@ -81,7 +81,7 @@
         <!-- Panneau score -->
 
         <LinearLayout
-            android:layout_width="600dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.02"
             android:background="@color/score"
@@ -359,7 +359,7 @@
         <!-- Bouton All -->
 
         <LinearLayout
-            android:layout_width="452dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.73"
             android:background="@color/bouton"

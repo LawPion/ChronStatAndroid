@@ -1,8 +1,13 @@
 package com.chron_stat_android.tasks;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
@@ -27,9 +32,8 @@ import android.util.Log;
  *       Traite des objets Request. Envoie pour chaque requête passée le JSON de
  *       la requête à l'URL donnée selon la méthode voulue.
  * 
- *       Utilisé afin d'éditer, d'ajouter ou de supprimer un utilisateur dans le
- *       fragment d'édition d'utilisateur et dans l'action d'ajout de
- *       MainActivity.
+ *       Utilisé afin d'éditer, d'ajouter ou de supprimer un élément dans le
+ *       fragment d'édition d'élément et dans l'action d'ajout de MainActivity.
  * 
  * @notes Le choix des méthodes HTTP est basé sur l'implémentation CRUD (Create,
  *        Read, Update et Delete, les quatres opérations de base) pour Ruby on
@@ -70,7 +74,7 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 	/***************************************************************************
 	 * Méthode de la classe AsyncTask se chargeant de traiter une tâche de fond.
 	 * Redéfinie ici pour traiter différentes requêtes (ajout, édition et
-	 * suppression d'utilisateurs).
+	 * suppression d'éléments).
 	 * 
 	 * @param requests
 	 *            Les requêtes à traiter.
@@ -80,28 +84,32 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 	@Override
 	protected Void doInBackground(Request... requests) {
 		for (int i = 0; i < requests.length; i++) {
+			BufferedReader reader = null;
 			try {
 				HttpClient client = new DefaultHttpClient();
 				HttpRequestBase request = null;
 				try {
 					if (requests[i].getMethod().equals("PUT")) {
-						// Edition d'utilisateur.
+						// Edition d'élément.
 						request = new HttpPut(requests[i].getURI());
 						((HttpPut) request).setEntity(new ByteArrayEntity(
 								requests[i].getTargetJSON().getBytes("UTF-8")));
-						Log.d("DEBUG - PUT", "PUTing json: "+requests[i].getTargetJSON());
+						Log.d("DEBUG - PUT",
+								"PUTing json: " + requests[i].getTargetJSON());
 						editNumber++;
 					} else if (requests[i].getMethod().equals("POST")) {
-						// Ajout d'utilisateur.
+						// Ajout d'élément.
 						request = new HttpPost(requests[i].getURI());
 						((HttpPost) request).setEntity(new ByteArrayEntity(
 								requests[i].getTargetJSON().getBytes("UTF-8")));
-						Log.d("DEBUG - POST", "POSTing json: "+requests[i].getTargetJSON());
+						Log.d("DEBUG - POST",
+								"POSTing json: " + requests[i].getTargetJSON());
 						createNumber++;
 					} else if (requests[i].getMethod().equals("DELETE")) {
-						// Suppression d'utilisateur.
+						// Suppression d'élément.
 						request = new HttpDelete(requests[i].getURI());
-						Log.d("DEBUG - DELETE", "DELETEing json: "+requests[i].getURI());
+						Log.d("DEBUG - DELETE", "DELETEing json: "
+								+ requests[i].getURI());
 						deleteNumber++;
 					}
 				} catch (URISyntaxException e) {
@@ -109,10 +117,31 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 				}
 				request.addHeader("Accept", "application/json");
 				request.addHeader("Content-Type", "application/json");
-				request.addHeader("Cookie", "remember_token=" + requests[i].getCookie());
-				client.execute(request);
-			} catch (IOException e) {
-				e.printStackTrace();
+				request.addHeader("Cookie",
+						"remember_token=" + requests[i].getCookie());
+				Log.d("DEBUG - Cookie POST", "remember_token=" + requests[i].getCookie());
+				HttpResponse HTTPResponse = client.execute(request);
+				HttpEntity entity = HTTPResponse.getEntity();
+				InputStream is = entity.getContent();
+				reader = new BufferedReader(new InputStreamReader(is, "utf-8"),
+						8);
+				StringBuilder builder = new StringBuilder();
+				String line = null;	
+				while ((line = reader.readLine()) != null) {
+					Log.d("RETRIEVED JSON", line);
+					builder.append(line);
+				}
+				is.close();
+			} catch (Exception e) {
+				Log.e("SendJSON", "SendJSONTask: " + e.getMessage());
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						Log.e("GetJSON", "GetJSONTask: " + e.getMessage());
+					}
+				}
 			}
 		}
 		return null;
@@ -120,7 +149,7 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 
 	/***************************************************************************
 	 * Méthode de la classe AsyncTask appelée après que doInBackground ait fini
-	 * son traitement. Construit le message contenant le nombre d'utilisateurs
+	 * son traitement. Construit le message contenant le nombre d'éléments
 	 * modifiés, ajoutés ou supprimés avant de le passer à la méthode callback
 	 * redéfinie dans la classe appelante.
 	 * 
@@ -130,17 +159,17 @@ public class SendJSONTask extends AsyncTask<Request, Void, Void> {
 	protected void onPostExecute(Void result) {
 		String message = "";
 		if (createNumber == 1)
-			message += "Utilisateur créé\n";
+			message += "Elément créé\n";
 		else if (createNumber != 0)
-			message += createNumber + " utilisateurs créés\n";
+			message += createNumber + " éléments créés\n";
 		if (editNumber == 1)
-			message += "Utilisateur modifié\n";
+			message += "Elément modifié\n";
 		else if (editNumber != 0)
-			message += editNumber + " utilisateurs modifiés\n";
+			message += editNumber + " éléments modifiés\n";
 		if (deleteNumber == 1)
-			message += "Utilisateur supprimé\n";
+			message += "Elément supprimé\n";
 		else if (deleteNumber != 0)
-			message += deleteNumber + " utilisateurs supprimés\n";
+			message += deleteNumber + " éléments supprimés\n";
 		cbl.callback(message.trim());
 	}
 }

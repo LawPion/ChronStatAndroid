@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.chron_stat_android.model.*;
 
-public class TimeKeepingActivity extends Activity  {
+public class TimeKeepingActivity extends MainActivity  {
 
 	final int DURATION_MATCH = 3600000;			// Duree total d'un match
 	final int DURATION_2MIN = 120000;			// Duree d'un 2min
