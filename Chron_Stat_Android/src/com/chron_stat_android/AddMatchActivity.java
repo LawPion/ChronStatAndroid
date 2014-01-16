@@ -95,6 +95,7 @@ public class AddMatchActivity extends MainActivity implements
 			builder.setPositiveButton(R.string.ok_button,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							match.setOver(false);
 							match.writeToStorage(AddMatchActivity.this);
 							Intent intent = new Intent(AddMatchActivity.this,
 									MatchDetailsActivity.class);

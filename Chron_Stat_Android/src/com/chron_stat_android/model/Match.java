@@ -25,13 +25,14 @@ public class Match implements Serializable {
 	private Championship championship;
 	private Gym gym;
 	private Fact[] facts;
+	private boolean isOver;
 
 	public Match() {
 		super();
 	}
 
 	public Match(int id, String date, int homeScore, int awayScore,
-			int championship_id, int gym_id, int team_id1_id, int team_id2_id) {
+			int championship_id, int gym_id, int team_id1_id, int team_id2_id, boolean isOver) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -41,6 +42,7 @@ public class Match implements Serializable {
 		this.gym_id = gym_id;
 		this.team_id1_id = team_id1_id;
 		this.team_id2_id = team_id2_id;
+		this.isOver = isOver;
 	}
 
 	public Match(int id, String date, int homeScore, int awayScore,
@@ -78,9 +80,17 @@ public class Match implements Serializable {
 	public int getChampionship_id() {
 		return championship_id;
 	}
+	
+	public void setHomeScore(int score){
+		this.homeScore = score;
+	}
+	
+	public void setAwayScore(int score){
+		this.awayScore = score;
+	}
 
-	public int setChampionship_id() {
-		return championship_id;
+	public void setChampionship_id(int id) {
+		this.championship_id = id;
 	}
 
 	public Championship getChampionship() {
@@ -129,6 +139,14 @@ public class Match implements Serializable {
 
 	public Fact[] getFacts() {
 		return this.facts;
+	}
+
+	public boolean isOver() {
+		return isOver;
+	}
+
+	public void setOver(boolean isOver) {
+		this.isOver = isOver;
 	}
 
 	public void setFacts(ArrayList<Fact> facts) {

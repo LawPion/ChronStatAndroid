@@ -7,6 +7,7 @@ import com.chron_stat_android.tasks.*;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -38,8 +39,6 @@ public class MatchDetailsActivity extends MainActivity implements
 		((TextView) findViewById(R.id.match_sheet_date)).setText(date);
 		((TextView) findViewById(R.id.match_sheet_gym)).setText(match.getGym()
 				.getName());
-		((TextView) findViewById(R.id.match_sheet_status))
-				.setText("TODO STATUS");
 
 		((Button) findViewById(R.id.delete_button))
 				.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +56,7 @@ public class MatchDetailsActivity extends MainActivity implements
 					@Override
 					public void onClick(View view) {
 						sendMatch();
+						match.deleteFromStorage(MatchDetailsActivity.this);
 						Intent intent = new Intent(getApplicationContext(),
 								TeamListActivity.class);
 						startActivity(intent);
@@ -75,6 +75,25 @@ public class MatchDetailsActivity extends MainActivity implements
 				});
 
 		preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+	}
+
+	@Override
+	protected void onResume() {
+		if (match.isOver()) {
+			((TextView) findViewById(R.id.match_sheet_status))
+					.setText("Terminé");
+			((TextView) findViewById(R.id.match_sheet_status))
+					.setTextColor(Color.RED);
+			((Button) findViewById(R.id.launch_button)).setEnabled(false);
+		} else {
+			((TextView) findViewById(R.id.match_sheet_status))
+					.setText("Non commencé");
+			((TextView) findViewById(R.id.match_sheet_status))
+					.setTextColor(Color.GREEN);
+			((Button) findViewById(R.id.send_button)).setEnabled(false);
+		}
+		
+		super.onResume();
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.chron_stat_android.model;
 public class MatchSheet {
 	private int homeScore;
 	private int awayScore;
+
 	private ServerFact[] facts;
 	private int id;
 
@@ -13,6 +14,7 @@ public class MatchSheet {
 	public MatchSheet(Match match) {
 		this.homeScore = match.getHomeScore();
 		this.awayScore = match.getAwayScore();
+
 		Fact[] temp = match.getFacts();
 		if (temp != null) {
 			this.facts = new ServerFact[temp.length];

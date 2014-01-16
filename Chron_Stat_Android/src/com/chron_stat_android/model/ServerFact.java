@@ -14,7 +14,7 @@ public class ServerFact implements Serializable {
 		super();
 	}
 	
-	public ServerFact(TypeFact type, int time, Player player, int player_id){
+	public ServerFact(TypeFact type, int time, int player_id){
 		this.type = type;
 		this.time = time;
 		this.player_id = player_id;
@@ -23,7 +23,7 @@ public class ServerFact implements Serializable {
 	public ServerFact(Fact fact) {
 		this.type = fact.getType();
 		this.time = fact.getTime();
-		this.player_id = fact.getPlayerId();
+		this.player_id = fact.getPlayer().getId();
 	}
 	
 	public TypeFact getType(){
